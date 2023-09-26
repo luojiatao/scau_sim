@@ -1,3 +1,4 @@
+![OIP](https://github.com/luojiatao/scau_sim/assets/108130094/910d91e3-8309-46b3-97d8-a5eac4b15a92)
 # SCAU_SIM: FSAC仿真平台
 
 SCAU_SIM是一个FSAC仿真平台，提供用于FSAC的一系列工具和功能。
