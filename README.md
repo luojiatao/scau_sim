@@ -5,7 +5,8 @@ SCAU_SIM是一个FSAC仿真平台，提供用于FSAC的一系列工具和功能�
 ## 启动步骤
 
 1. 在工作空间下打开终端。
-2. 在终端输入 `sh fsac.sh` 启动所有功能。(即 `\~/scau_sim$ sh fsac.sh`)
+2. 在终端输入 `sh base.sh` 启动所有硬件驱动程序。(即 `\~/scau_sim$ sh base.sh`)
+3. 在终端输入 `sh fsac01.sh` 启动导航功能。(即 `\~/scau_sim$ sh fsac01.sh`)
 
 ## 功能包介绍
 
@@ -28,6 +29,18 @@ gmapping建图功能包。要使用此功能，需要先开启仿真功能和键
 ### 5. teleop_twist_keyboard
 
 键盘控制模块。运行python文件即可启动节点。
+
+### 6. gps
+
+导航仪驱动功能包。根据`gps.launch`文件配置参数。
+
+### 7. rslidar_sdk
+
+多线激光雷达驱动功能包（32线）。根据`config.yaml`文件配置参数。
+
+### 8. pointcloud_to_laserscan
+
+多线激光雷达与单线激光雷达数据转换功能包。根据`sample_node.launch`文件配置参数。
 
 ---
 
