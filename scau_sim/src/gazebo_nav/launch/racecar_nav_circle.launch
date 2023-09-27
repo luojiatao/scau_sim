@@ -1,0 +1,45 @@
+<launch>
+	<!-- ************** Global Parameters *************** -->
+	<param name="/use_sim_time" value="true"/>
+	<!-- ****** Maps ***** -->
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find
+	gazebo_nav)/map/gmapping_map_circle.yaml" output="screen">
+		<param name="frame_id" value="map" />
+	</node>
+	<!-- ************** Navigation *************** -->
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base"
+	output="screen">
+		<rosparam file="$(find
+		gazebo_nav)/cfg/move_base/costmap_common_params.yaml" command="load"
+		ns="global_costmap" />
+		<rosparam file="$(find
+		gazebo_nav)/cfg/move_base/costmap_common_params.yaml" command="load"
+		ns="local_costmap" />
+		<rosparam file="$(find
+		gazebo_nav)/cfg/move_base/global_planner_params.yaml" command="load" />
+		<rosparam file="$(find
+		gazebo_nav)/cfg/move_base/teb_local_planner_params.yaml" command="load" />
+		<rosparam file="$(find
+		gazebo_nav)/cfg/move_base/local_costmap_params.yaml" command="load" />
+		<rosparam file="$(find
+		gazebo_nav)/cfg/move_base/global_costmap_params.yaml" command="load" />
+		<rosparam file="$(find gazebo_nav)/cfg/move_base/move_base_params.yaml"
+		command="load" />
+		<param name="planner_frequency" value="10" />
+		<param name="planner_patience" value="10" />
+		<!--param name="use_dijkstra" value="true" /-->
+		<param name="base_local_planner"
+		value="teb_local_planner/TebLocalPlannerROS" />
+		<remap from="/move_base/TebLocalPlannerROS/local_plan" to="local_path" />
+		<!--禁用teb的速度指令 /-->
+		<remap from="cmd_vel" to="cmd_vel_blocked" />
+
+		<param name="controller_frequency" value="10.0" />
+		<param name="controller_patience" value="10.0" />
+		<param name="clearing_rotation_allowed" value="false" />
+		<param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+	</node>
+	<!-- **************** Visualisation **************** -->
+	<node name="rviz" pkg="rviz" type="rviz" required="true"
+	args="-d $(find gazebo_nav)/cfg/rviz/demo.rviz" />
+</launch>

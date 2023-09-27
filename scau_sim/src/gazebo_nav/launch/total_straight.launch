@@ -1,0 +1,10 @@
+<launch>
+     <include file="$(find gazebo_pkg)/launch/race_straight.launch">
+        <!-- <arg name="gui" value="false"/> -->
+    </include>
+    <include file="$(find gazebo_nav)/launch/racecar_nav_straight.launch"/>
+    <include file="$(find gazebo_nav)/cfg/amcl/amcl.launch"/>
+
+    <!-- <include file="$(find waypoint_loader)/launch/waypoint_loader.launch"/>
+    <include file="$(find pure_persuit)/launch/pure_persuit.launch"/> -->
+</launch>
