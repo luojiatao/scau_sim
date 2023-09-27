@@ -1,0 +1,6 @@
+<launch>
+    <node pkg = "gps2odom" type = "gps2odom" name = "gps2odom" output = "screen">
+        <remap from="gps" to="/imu/gps" />
+        <remap from="imu" to="/imu/data" />
+    </node>
+</launch>

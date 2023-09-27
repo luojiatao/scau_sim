@@ -1,0 +1,9 @@
+<launch>
+
+  <node pkg="ins" type="ins" name="ins" required="true">
+    <param name="port" value="/dev/ttyUSB0"/>
+  </node>
+
+  
+
+</launch>
