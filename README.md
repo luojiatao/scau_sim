@@ -8,7 +8,8 @@ SCAU_SIM是一个FSAC仿真平台，提供用于FSAC的一系列工具和功能�
 
 1. 在工作空间下打开终端。
 2. 在终端输入 `sh base.sh` 启动所有硬件驱动程序。(即 `\~/scau_sim$ sh base.sh`)
-3. 在终端输入 `sh fsac01.sh` 启动导航功能。(即 `\~/scau_sim$ sh fsac01.sh`)
+3. 在终端输入 `sh fsac_straight.sh` 启动直线加速功能。(即 `\~/scau_sim$ sh fsac_straight.sh`)
+4. 在终端输入 `sh fsac_circle.sh` 启动八字环绕功能。(即 `\~/scau_sim$ sh fsac_circle.sh`)
 
 ## 功能包介绍
 
