@@ -7,9 +7,9 @@ SCAU_SIM是华南农业大学用于FSAC赛道的仿真和算法平台，提供�
 ## 启动步骤
 
 1. 在工作空间下打开终端。
-2. 在终端输入 `sh base.sh` 启动所有硬件驱动程序。(即 `\~/scau_sim$ sh base.sh`)
-3. 在终端输入 `sh fsac_straight.sh` 启动直线加速功能。(即 `\~/scau_sim$ sh fsac_straight.sh`)
-4. 在终端输入 `sh fsac_circle.sh` 启动八字环绕功能。(即 `\~/scau_sim$ sh fsac_circle.sh`)
+2. 在终端输入 `sh base.sh` 启动所有硬件驱动程序。
+3. 在终端输入 `sh fsac_straight.sh` 启动直线加速功能。
+4. 在终端输入 `sh fsac_circle.sh` 启动八字环绕功能。
 
 ## 功能包介绍
 
