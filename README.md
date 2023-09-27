@@ -2,7 +2,7 @@
 
 # SCAU_SIM: FSAC仿真平台
 
-SCAU_SIM是一个FSAC仿真平台，提供用于FSAC的一系列工具和功能。
+SCAU_SIM是华南农业大学用于FSAC赛道的仿真和算法平台，提供用于FSAC的一系列工具和功能。
 
 ## 启动步骤
 
