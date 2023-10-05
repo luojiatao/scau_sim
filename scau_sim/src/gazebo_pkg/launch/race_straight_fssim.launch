@@ -1,0 +1,36 @@
+<launch>
+  <arg name="robot_name"          default="gotthard" />
+  <arg name="sensors_config_file" default="$(find fssim_description)/cars/$(arg robot_name)/config/sensors.yaml"/>
+  <arg name="car_config_file"     default="$(find fssim_description)/cars/$(arg robot_name)/config/car.yaml"/>
+  <arg name="car_dimensions_file" default="$(find fssim_description)/cars/$(arg robot_name)/config/distances.yaml"/>
+  <arg name="gui" default="true"/>
+  <arg name="debug" default="false"/>
+
+  <!-- 启动gazebo世界 -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find gazebo_pkg)/world/straight_track.world"/> 
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+  </include>
+  
+  <!-- 以下是生成urdf机器人模型的位置，改变小车模型只需要改变下述文件 -->
+
+  <!-- Vehicle Model -->
+    <include file="$(find fssim_description)/launch/vehicle_model.launch">
+        <arg name="robot_name" value="$(arg robot_name)"/>
+        <arg name="sensors_config_file" value="$(arg sensors_config_file)"/>
+        <arg name="car_config_file" value="$(arg car_config_file)"/>
+        <arg name="car_dimensions_file" value="$(arg car_dimensions_file)"/>
+    </include>
+
+    <!-- push robot_description to factory and spawn robot in gazebo -->
+    <node args="-urdf -param robot_description -model $(arg robot_name) -z 0.5 "
+          name="urdf_spawner_$(arg robot_name)"
+          output="screen"
+          pkg="gazebo_ros"
+          respawn="false"
+          type="spawn_model"/>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+</launch>

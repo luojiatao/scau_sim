@@ -1,0 +1,10 @@
+
+scau_sim/build/pointcloud_to_laserscan/CMakeFiles/laserscan_to_pointcloud_node.dir/link.txt
+*.internal
+scau_sim/.vscode/c_cpp_properties.json
+*.json
+scau_sim/build/.built_by
+scau_sim/build/atomic_configure/.rosinstall
+scau_sim/build/CATKIN_IGNORE
+scau_sim/build
+scau_sim/devel
