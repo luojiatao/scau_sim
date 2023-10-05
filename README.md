@@ -1,15 +1,15 @@
 ![OIP](https://github.com/luojiatao/scau_sim/assets/108130094/e92792d6-d820-4f28-8013-978381957bb2)
 
-# SCAU_SIM: FSAC仿真平台
+# SCAU_SIM 工作空间
 
-SCAU_SIM是一个FSAC仿真平台，提供用于FSAC的一系列工具和功能。
+SCAU_SIM是华南农业大学用于FSAC赛道的仿真和算法平台，提供用于FSAC的一系列工具和功能。
 
 ## 启动步骤
 
 1. 在工作空间下打开终端。
-2. 在终端输入 `sh base.sh` 启动所有硬件驱动程序。(即 `\~/scau_sim$ sh base.sh`)
-3. 在终端输入 `sh fsac_straight.sh` 启动直线加速功能。(即 `\~/scau_sim$ sh fsac_straight.sh`)
-4. 在终端输入 `sh fsac_circle.sh` 启动八字环绕功能。(即 `\~/scau_sim$ sh fsac_circle.sh`)
+2. 在终端输入 `sh base.sh` 启动所有硬件驱动程序。
+3. 在终端输入 `sh fsac_straight.sh` 启动直线加速功能。
+4. 在终端输入 `sh fsac_circle.sh` 启动八字环绕功能。
 
 ## 功能包介绍
 
