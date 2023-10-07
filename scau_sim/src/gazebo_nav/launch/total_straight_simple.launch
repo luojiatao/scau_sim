@@ -1,5 +1,5 @@
 <launch>
-     <include file="$(find husky_gazebo)/launch/race_straight.launch">
+     <include file="$(find gazebo_pkg)/launch/race_straight.launch">
         <!-- <arg name="gui" value="false"/> -->
     </include>
     <include file="$(find gazebo_nav)/launch/racecar_nav_straight.launch"/>

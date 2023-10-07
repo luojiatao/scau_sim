@@ -1,0 +1,38 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/tianbot/manipulation_ws/devel/include/**",
+        "/home/tianbot/catkin_ws/devel/include/**",
+        "/home/tianbot/tianbot_mini_ws/devel/include/**",
+        "/home/tianbot/tianbot_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/tianbot/tianbot_ws/src/ros_astra_camera/include/**",
+        "/home/tianbot/manipulation_ws/src/aubo_robot/aubo_controller/include/**",
+        "/home/tianbot/manipulation_ws/src/aubo_robot/aubo_driver/include/**",
+        "/home/tianbot/manipulation_ws/src/aubo_robot/aubo_kinematics/include/**",
+        "/home/tianbot/manipulation_ws/src/aubo_robot/aubo_msgs/include/**",
+        "/home/tianbot/catkin_ws/src/ASENSING_INS_Driver_V1.02/ASENSING_INS_Driver_V1.02/include/**",
+        "/home/tianbot/tianbot_ws/src/osight_lidar/include/**",
+        "/home/tianbot/tianbot_ws/src/rosecho/include/**",
+        "/home/tianbot/tianbot_mini_ws/src/rosserial/rosserial_server/include/**",
+        "/home/tianbot/tianbot_mini_ws/src/rosserial/rosserial_test/include/**",
+        "/home/tianbot/tianbot_ws/src/tianbot/tianbot_core/include/**",
+        "/home/tianbot/tianbot_ws/src/tianracer/tianracer_core/include/**",
+        "/home/tianbot/manipulation_ws/src/xarm_ros/xarm_api/include/**",
+        "/home/tianbot/manipulation_ws/src/xarm_ros/xarm_controller/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
