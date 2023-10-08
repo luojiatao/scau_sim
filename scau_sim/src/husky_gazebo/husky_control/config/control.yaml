@@ -17,8 +17,7 @@ husky_velocity_controller:
 
   # Odometry fused with IMU is published by robot_localization, so
   # no need to publish a TF based on encoders alone.
-  # enable_odom_tf: false
-  enable_odom_tf: true
+  enable_odom_tf: false
 
   # Wheel separation and radius multipliers
   wheel_separation_multiplier: 1.875 # default: 1.0
