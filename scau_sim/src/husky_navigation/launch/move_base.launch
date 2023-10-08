@@ -57,6 +57,6 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCL
     <param name="global_costmap/height" value="100.0" if="$(arg no_static_map)"/>
   </node>
   
-    <node name="rviz" pkg="rviz" type="rviz" required="true"
-    args="-d $(find husky_navigation)/launch/demo.rviz" />
+    <!-- <node name="rviz" pkg="rviz" type="rviz" required="true"
+    args="-d $(find husky_navigation)/launch/demo.rviz" /> -->
 </launch>
