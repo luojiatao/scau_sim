@@ -17,7 +17,8 @@ class PurePersuit:
 		rospy.init_node('pure_persuit', log_level=rospy.DEBUG)
 
 		rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, self.pose_cb, queue_size = 1)
-		rospy.Subscriber('/local_path', Path, self.path_cb, queue_size = 1)
+		# rospy.Subscriber('/local_path', Path, self.path_cb, queue_size = 1)
+		rospy.Subscriber('/move_base/DWAPlannerROS/local_plan', Path, self.path_cb, queue_size = 1)
 
 		# self.left_vel_pub =rospy.Publisher('/rear_left_velocity_controller/command', Float64, queue_size = 10)
 		# self.right_vel_pub = rospy.Publisher('/rear_right_velocity_controller/command', Float64, queue_size = 10)

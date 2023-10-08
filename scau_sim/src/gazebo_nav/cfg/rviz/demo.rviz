@@ -66,47 +66,127 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        camera_link:
+        camera_realsense:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_realsense_gazebo:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_realsense_lens:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        dummy:
+        front_bumper_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
+        front_laser:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        front_laser_mount:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        front_left_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        front_right_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hdl32e_mount_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        hdl32e_mount_left_support:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        hdl32e_mount_right_support:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         imu_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
-        laser_frame:
+        inertial_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        realsense_mountpoint:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        rear_bumper_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        wheel_1:
+        rear_left_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        wheel_2:
+        rear_right_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        wheel_3:
+        sensor_arch_base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        sensor_arch_mount_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        wheel_4:
+        top_chassis_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        top_plate_front_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        top_plate_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        top_plate_rear_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        user_rail_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        velodyne:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        velodyne_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -128,25 +208,61 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
-        camera_link:
+        camera_realsense:
           Value: true
-        dummy:
+        camera_realsense_gazebo:
+          Value: true
+        camera_realsense_lens:
+          Value: true
+        front_bumper_link:
+          Value: true
+        front_laser:
+          Value: true
+        front_laser_mount:
+          Value: true
+        front_left_wheel_link:
+          Value: true
+        front_right_wheel_link:
+          Value: true
+        hdl32e_mount_base_link:
+          Value: true
+        hdl32e_mount_left_support:
+          Value: true
+        hdl32e_mount_right_support:
           Value: true
         imu_link:
           Value: true
-        laser_frame:
+        inertial_link:
           Value: true
         map:
           Value: true
         odom:
           Value: true
-        wheel_1:
+        realsense_mountpoint:
           Value: true
-        wheel_2:
+        rear_bumper_link:
           Value: true
-        wheel_3:
+        rear_left_wheel_link:
           Value: true
-        wheel_4:
+        rear_right_wheel_link:
+          Value: true
+        sensor_arch_base_link:
+          Value: true
+        sensor_arch_mount_link:
+          Value: true
+        top_chassis_link:
+          Value: true
+        top_plate_front_link:
+          Value: true
+        top_plate_link:
+          Value: true
+        top_plate_rear_link:
+          Value: true
+        user_rail_link:
+          Value: true
+        velodyne:
+          Value: true
+        velodyne_base_link:
           Value: true
       Marker Scale: 1
       Name: TF
@@ -154,26 +270,54 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        dummy:
-          {}
         map:
           odom:
-            base_footprint:
-              base_link:
-                camera_link:
+            base_link:
+              base_footprint:
+                {}
+              front_bumper_link:
+                {}
+              front_left_wheel_link:
+                {}
+              front_right_wheel_link:
+                {}
+              imu_link:
+                {}
+              inertial_link:
+                {}
+              rear_bumper_link:
+                {}
+              rear_left_wheel_link:
+                {}
+              rear_right_wheel_link:
+                {}
+              top_chassis_link:
+                {}
+              top_plate_link:
+                front_laser_mount:
+                  front_laser:
+                    {}
+                sensor_arch_base_link:
+                  sensor_arch_mount_link:
+                    hdl32e_mount_base_link:
+                      hdl32e_mount_left_support:
+                        {}
+                      hdl32e_mount_right_support:
+                        {}
+                      velodyne_base_link:
+                        velodyne:
+                          {}
+                    realsense_mountpoint:
+                      camera_realsense_lens:
+                        camera_realsense:
+                          camera_realsense_gazebo:
+                            {}
+                top_plate_front_link:
                   {}
-                imu_link:
+                top_plate_rear_link:
                   {}
-                laser_frame:
-                  {}
-                wheel_1:
-                  {}
-                wheel_2:
-                  {}
-                wheel_3:
-                  {}
-                wheel_4:
-                  {}
+              user_rail_link:
+                {}
       Update Interval: 0
       Value: true
     - Alpha: 0.699999988079071
@@ -209,7 +353,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.05000000074505806
       Style: Flat Squares
-      Topic: /scan
+      Topic: /front/scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -283,6 +427,34 @@ Visualization Manager:
       Topic: /scau/plan
       Unreliable: false
       Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Min Color: 0; 0; 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.009999999776482582
+      Style: Flat Squares
+      Topic: /points
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -311,7 +483,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 28.113784790039062
+      Distance: 4.695444583892822
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -326,10 +498,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.1047967672348022
+      Pitch: 0.25979793071746826
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.1485564708709717
+      Yaw: 2.6935558319091797
     Saved: ~
 Window Geometry:
   Displays:
