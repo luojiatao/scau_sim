@@ -1,5 +1,0 @@
-raw_lidar_topic_name: /points
-
-lidar_cluster_topic_name: /perception/lidar_cluster
-
-node_rate: 10 # [Herz]

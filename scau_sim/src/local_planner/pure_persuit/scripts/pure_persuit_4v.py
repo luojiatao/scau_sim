@@ -6,7 +6,7 @@ from nav_msgs.msg import Path
 import tf
 from tf import transformations
 import rospy
-
+import nav_msgs.msg as nav_msgs
 HORIZON = 1.0
 L = 0.5
 T = 0.5
@@ -16,9 +16,11 @@ class PurePersuit:
 	def __init__(self):
 		rospy.init_node('pure_persuit', log_level=rospy.DEBUG)
 
-		rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, self.pose_cb, queue_size = 1)
-		# rospy.Subscriber('/local_path', Path, self.path_cb, queue_size = 1)
-		rospy.Subscriber('/move_base/DWAPlannerROS/local_plan', Path, self.path_cb, queue_size = 1)
+		# rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, self.pose_cb, queue_size = 1)
+		rospy.Subscriber('/odometry/filtered', nav_msgs.Odometry, self.pose_cb, queue_size=1)  
+
+		rospy.Subscriber('/local_path', Path, self.path_cb, queue_size = 1)
+		# rospy.Subscriber('/move_base/DWAPlannerROS/local_plan', Path, self.path_cb, queue_size = 1)
 
 		# self.left_vel_pub =rospy.Publisher('/rear_left_velocity_controller/command', Float64, queue_size = 10)
 		# self.right_vel_pub = rospy.Publisher('/rear_right_velocity_controller/command', Float64, queue_size = 10)
@@ -38,8 +40,11 @@ class PurePersuit:
 				self.calculateTwistCommand()
 			rate.sleep()
 
-	def pose_cb(self,data):
-		self.currentpose = data.pose
+	# def pose_cb(self,data):
+	# 	self.currentpose = data.pose
+
+	def pose_cb(self, msg):
+		self.currentpose = msg.pose 
 
 
 	def path_cb(self,data):
