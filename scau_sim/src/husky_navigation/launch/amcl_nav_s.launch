@@ -36,7 +36,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
   </include>
 
   <!--- Run Move Base -->
-  <include file="$(find husky_navigation)/launch/move_base.launch">
+  <include file="$(find husky_navigation)/launch/move_base_teb.launch">
     <arg name="no_static_map" value="true"/>
   </include>
 
