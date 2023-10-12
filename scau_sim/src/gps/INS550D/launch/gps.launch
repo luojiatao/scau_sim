@@ -23,7 +23,7 @@
         <remap from="imu" to="/imu/data" />
     </node>
   
-  
+    <include file="$(find test)/launch/test.launch"/>
 
 
   <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find ins550d)/rviz/demo.rviz" required="true"/> //启动导航仪实时位姿rviz-->

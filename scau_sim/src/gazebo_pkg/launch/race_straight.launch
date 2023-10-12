@@ -13,7 +13,6 @@
     <arg name="gui" value="$(arg gui)" />
   </include>
   
-  <!-- 以下是生成urdf机器人模型的位置，改变小车模型只需要改变下述文件 -->
   <!-- Load the URDF into the ROS Parameter Server -->
   <arg name="model" default="$(find gazebo_pkg)/urdf/waking_robot.xacro" />
  

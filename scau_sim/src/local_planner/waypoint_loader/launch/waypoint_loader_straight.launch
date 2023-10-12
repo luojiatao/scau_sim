@@ -4,4 +4,6 @@
         <param name="path" value="$(find waypoint_loader)/waypoints/waypoints_straight.csv" />
         <!-- <param name="velocity" value="10" /> -->
     </node>
+    <node name="rviz" pkg="rviz" type="rviz" required="true"
+    args="-d $(find husky_navigation)/launch/demo.rviz" />
 </launch>

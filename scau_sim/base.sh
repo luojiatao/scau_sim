@@ -23,4 +23,3 @@ exec bash"
 
 
 echo “successfully started!”
-
