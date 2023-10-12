@@ -8,3 +8,5 @@ scau_sim/build/atomic_configure/.rosinstall
 scau_sim/build/CATKIN_IGNORE
 scau_sim/build
 scau_sim/devel
+scau_sim/.catkin_tools/VERSION
+scau_sim/.catkin_tools

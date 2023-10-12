@@ -7,16 +7,16 @@
 # “raytrace_range”参数确定了用于清除指定范围外的空间。
 # 将其设置为3.0米，这意味着机器人将尝试清除3米外的空间，在代价地图中清除3米外的障碍物。
 footprint: [[0.10, 0.10], [0.10, -0.10], [-0.10, -0.10], [-0.10, 0.10]]
-obstacle_range: 2.5
-raytrace_range: 3.0
+obstacle_range: 6
+raytrace_range: 6
 static_layer:
   enabled: true
 obstacle_layer:
   enabled: true
   track_unknown_space: true
   combination_method: 1
-  obstacle_range: 2.5
-  raytrace_range: 3.0
+  obstacle_range: 6
+  raytrace_range: 6
   observation_sources: scan
   scan: {
     data_type: LaserScan,
