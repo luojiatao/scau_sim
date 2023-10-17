@@ -10,3 +10,4 @@ scau_sim/build
 scau_sim/devel
 scau_sim/.catkin_tools/VERSION
 scau_sim/.catkin_tools
+scau_sim/logs
