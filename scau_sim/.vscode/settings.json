@@ -1,8 +1,10 @@
 {
     "python.autoComplete.extraPaths": [
+        "/home/luo/scau_sim/devel/lib/python2.7/dist-packages",
         "/opt/ros/melodic/lib/python2.7/dist-packages"
     ],
     "python.analysis.extraPaths": [
+        "/home/luo/scau_sim/devel/lib/python2.7/dist-packages",
         "/opt/ros/melodic/lib/python2.7/dist-packages"
     ]
 }

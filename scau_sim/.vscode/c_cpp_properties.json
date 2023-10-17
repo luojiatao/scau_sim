@@ -6,7 +6,11 @@
         "limitSymbolsToIncludedHeaders": false
       },
       "includePath": [
+        "/home/luo/scau_sim/devel/include/**",
         "/opt/ros/melodic/include/**",
+        "/home/luo/scau_sim/src/gps/ASENSING_INS_Driver_V1.02/ASENSING_INS_Driver_V1.02/include/**",
+        "/home/luo/scau_sim/src/pointcloud_to_laserscan/include/**",
+        "/home/luo/scau_sim/src/gps/test/include/**",
         "/usr/include/**"
       ],
       "name": "ROS",

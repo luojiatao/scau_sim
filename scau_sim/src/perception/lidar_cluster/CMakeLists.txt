@@ -7,6 +7,7 @@ add_compile_options(-std=c++11)
 set(PROJECT_DEPS
   roscpp
   std_msgs
+  fsd_common_msgs
   )
 
 find_package(catkin REQUIRED COMPONENTS

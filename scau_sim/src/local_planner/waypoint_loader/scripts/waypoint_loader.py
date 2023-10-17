@@ -8,7 +8,7 @@ import tf
 import rospy
 import numpy as np
 from geometry_msgs.msg import PoseWithCovarianceStamped
-import nav_msgs.msg as nav_msgs
+
 CSV_HEADER = ['x', 'y', 'yaw']
 
 
@@ -21,8 +21,7 @@ class WaypointLoader(object):
 
         self.pub_goal = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=1)
         self.pub_path = rospy.Publisher('/scau/plan', Path, queue_size=1, latch=True)
-        # rospy.Subscriber("/amcl_pose", PoseWithCovarianceStamped, self.pose_callback,queue_size=1)
-        rospy.Subscriber('/odometry/filtered', nav_msgs.Odometry, self.pose_cb, queue_size=1)  
+        rospy.Subscriber("/amcl_pose", PoseWithCovarianceStamped, self.pose_callback,queue_size=1)
         self.new_waypoint_loader(rospy.get_param('~path'))
         rospy.spin()
 
@@ -37,7 +36,7 @@ class WaypointLoader(object):
     def quaternion_from_yaw(self, yaw): 
         return Quaternion(x=0.0, y=0.0, z=np.sin(yaw/2.0), w=np.cos(yaw/2.0))
 
-    def pose_cb(self,msg):
+    def pose_callback(self,msg):
         global current_pose
         current_pose = msg
 
