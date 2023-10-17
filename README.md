@@ -33,9 +33,9 @@ gmapping建图功能包。要使用此功能，需要先开启仿真功能和键
 
 键盘控制模块。运行python文件即可启动节点。
 
-### 6. gps
+### 6. robot_localization
 
-导航仪驱动功能包。根据`gps.launch`文件配置参数。
+机器人定位模块。读取传感器信息并自动更新tf树。
 
 ### 7. rslidar_sdk
 
