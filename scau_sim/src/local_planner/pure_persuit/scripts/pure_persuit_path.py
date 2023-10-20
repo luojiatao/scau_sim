@@ -7,6 +7,8 @@ import tf
 from tf import transformations
 import rospy
 import nav_msgs.msg as nav_msgs
+from fsd_common_msgs.msg import Trajectory
+from fsd_common_msgs.msg import TrajectoryPoint
 HORIZON = 1.0
 L = 0.5
 T = 0.5
@@ -19,7 +21,7 @@ class PurePersuit:
 		# rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, self.pose_cb, queue_size = 1)
 		rospy.Subscriber('/odometry/filtered', nav_msgs.Odometry, self.pose_cb, queue_size=1)  
 
-		rospy.Subscriber('/local_path', Path, self.path_cb, queue_size = 1)
+		rospy.Subscriber('/planning/ref_path', Trajectory, self.path_cb, queue_size = 1)
 		# rospy.Subscriber('/move_base/DWAPlannerROS/local_plan', Path, self.path_cb, queue_size = 1)
 
 		# self.left_vel_pub =rospy.Publisher('/rear_left_velocity_controller/command', Float64, queue_size = 10)
@@ -81,24 +83,24 @@ class PurePersuit:
 
 	def calculateTwistCommand(self):
 		lad = 0.0 #look ahead distance accumulator
-		targetIndex = len(self.currentpath.poses) - 1
-		for i in range(len(self.currentpath.poses)):
-			if((i+1) < len(self.currentpath.poses)):
-				this_x = self.currentpath.poses[i].pose.position.x
-				this_y = self.currentpath.poses[i].pose.position.y
-				next_x = self.currentpath.poses[i+1].pose.position.x
-				next_y = self.currentpath.poses[i+1].pose.position.y
+		targetIndex = len(self.currentpath.trajectory) - 1
+		for i in range(len(self.currentpath.trajectory)):
+			if((i+1) < len(self.currentpath.trajectory)):
+				this_x = self.currentpath.trajectory[i].pts.x
+				this_y = self.currentpath.trajectory[i].pts.y
+				next_x = self.currentpath.trajectory[i+1].pts.x
+				next_y = self.currentpath.trajectory[i+1].pts.y
 				lad = lad + math.hypot(next_x - this_x, next_y - this_y)
 				if(lad > HORIZON):
 					targetIndex = i+1
 					break
  
-		targetpose = self.currentpath.poses[targetIndex]
+		targetpose = self.currentpath.trajectory[targetIndex]
 
 		targetSpeed = Velocity
 
-		targetX = targetpose.pose.position.x
-		targetY = targetpose.pose.position.y		
+		targetX = targetpose.pts.x
+		targetY = targetpose.pts.y		
 		currentX = self.currentpose.pose.position.x
 		currentY = self.currentpose.pose.position.y
 		#get vehicle yaw angle
@@ -144,3 +146,4 @@ if __name__ == '__main__':
         PurePersuit()
     except rospy.ROSInterruptException:
         rospy.logerr('Could not start motion control node.')
+

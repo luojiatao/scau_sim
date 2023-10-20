@@ -17,7 +17,7 @@ class PurePersuit:
 	def __init__(self):
 		rospy.init_node('pure_persuit', log_level=rospy.DEBUG)
 		rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, self.pose_cb, queue_size = 1)
-		rospy.Subscriber('/local_path', Path, self.path_cb, queue_size = 1)
+		rospy.Subscriber('/planning/ref_path', Path, self.path_cb, queue_size = 1)
 
 		self.twist_pub = rospy.Publisher('/cmd_vel', Twist, queue_size = 1)
 
