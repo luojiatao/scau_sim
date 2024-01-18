@@ -1,5 +1,0 @@
-<launch>
-    <node pkg="test" type="test_sub" name="subscribe_and_publish" />
-    <node pkg="test" type="test_pub_1" name="chatter1"/>
-    <node pkg="test" type="test_pub_2" name="chatter2" />
-</launch>

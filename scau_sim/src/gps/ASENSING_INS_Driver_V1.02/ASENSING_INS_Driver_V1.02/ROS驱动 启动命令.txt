@@ -1,2 +1,0 @@
-roslaunch ins demo.launch
-

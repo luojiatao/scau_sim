@@ -1,0 +1,21 @@
+<launch>
+
+    <rosparam file="$(find gps2odom)/yaml/gps2odom.yaml" command="load" />
+
+    <node pkg="tf" type="static_transform_publisher" name="static_transform_publisher" 
+	  args="0 0 0 0 0 0 1  /base_link /imu_link 10" />
+
+    <!-- EKF GPS-->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_gps" respawn="true">
+        <remap from="odometry/filtered" to="odom" />
+    </node>
+
+    <!-- Navsat -->
+    <node pkg="robot_localization" type="navsat_transform_node" name="navsat" respawn="true">
+        <remap from="imu/data" to="imu/data" />
+        <remap from="gps/fix" to="imu/gps" />
+        <remap from="odometry/filtered" to="odom" />
+    </node>
+
+</launch>
+
