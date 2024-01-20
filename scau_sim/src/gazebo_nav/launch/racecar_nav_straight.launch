@@ -40,6 +40,6 @@
 		<param name="base_global_planner" value="global_planner/GlobalPlanner"/>
 	</node>
 	<!-- **************** Visualisation **************** -->
-	<node name="rviz" pkg="rviz" type="rviz" required="true"
-	args="-d $(find gazebo_nav)/cfg/rviz/demo.rviz" />
+	<!-- <node name="rviz" pkg="rviz" type="rviz" required="true"
+	args="-d $(find gazebo_nav)/cfg/rviz/demo.rviz" /> -->
 </launch>

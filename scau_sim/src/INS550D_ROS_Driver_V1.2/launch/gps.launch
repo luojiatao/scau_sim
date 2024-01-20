@@ -28,9 +28,10 @@
     <node pkg="tf" type="static_transform_publisher" name="static_transform_publisher" 
 	  args="0 0 0 0 0 0 1  /base_link /imu_link 10" />
 
-    <!-- EKF GPS-->
+    <!-- EKF case-->
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_gps" respawn="true">
         <remap from="odometry/filtered" to="odom" />
+        <param name="two_d_mode" value="false"/>      
     </node>
 
     <!-- Navsat -->

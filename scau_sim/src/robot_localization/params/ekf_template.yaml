@@ -89,8 +89,8 @@ odom0: example/odom
 # 每个传感器读数更新过滤器的一些或全部状态。这些选项使您能够更好地控制将每个测量值输入到过滤器中。
 # 例如，如果您有一个里程计消息作为输入，但只想使用它的Z位置值，那么将整个向量设置为false，
 # 第三个条目除外。值的顺序是x，y，z，滚动，俯仰，偏航，vx，vy，vz，vroll，vpitch，vyaw，ax，ay，az。
-# 请注意，并非某些消息类型不提供过滤器估计的某些状态变量。例如，TwistWithCovarianceStamped消息没有姿势信息，
-# 因此在这种情况下，前六个值没有意义。如果未指定，每个向量默认为全假，实际上每个传感器都需要此参数。
+# 请注意，即使相关消息类型不包含配置向量中的某些变量。例如，TwistWithCovarianceStamped消息没有姿势信息，
+# 但配置向量仍具有姿势变量的值,未使用的变量将被忽略。
 odom0_config: [true,  true,  false,
                false, false, false,
                false, false, false,
@@ -114,6 +114,8 @@ odom0_nodelay: false
 # data is converted to velocity data by differentiating the absolute pose measurements. These velocities are then
 # integrated as usual. NOTE: this only applies to sensors that provide pose measurements; setting differential to true
 # for twist measurements has no effect.
+# 如果将navsat_transform节点的输出与 robot_localization 中的任何状态估计节点融合在一起，
+# 则应确保该输入的 odomN_differential 设置为 false
 odom0_differential: false
 
 # [ADVANCED] When the node starts, if this parameter is true, then the first measurement is treated as a "zero point"

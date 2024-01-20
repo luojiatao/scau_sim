@@ -7,9 +7,10 @@ SCAU_SIM是华南农业大学用于FSAC赛道的仿真和算法平台，提供�
 ## 启动步骤
 
 1. 在工作空间下打开终端。
-2. 在终端输入 `sh base.sh` 启动所有硬件驱动程序。
-3. 在终端输入 `sh fsac_straight.sh` 启动直线加速功能。
-4. 在终端输入 `sh fsac_circle.sh` 启动八字环绕功能。
+2. 在终端输入 `sh base.sh` 启动硬件驱动程序。
+3. 在终端输入 `sh fsac_straight.sh` 启动直线加速仿真。
+4. 在终端输入 `sh fsac_circle.sh` 启动八字环绕仿真。
+5. 在终端输入`sh SR_fsac_straight.sh` 启动实车直线加速系统。
 
 ## 功能包介绍
 
@@ -35,7 +36,7 @@ gmapping建图功能包。要使用此功能，需要先开启仿真功能和键
 
 ### 6. INS550D_ROS_Driver_V1.2
 
-导航仪驱动功能包。根据`gps.launch`文件配置参数。已根据官方源码做了部分修改，尚未验证功能包是否可用。
+与ASENSING_INS_Driver_V1.02共同组成导航仪驱动功能包。根据`gps.launch`文件配置参数。已根据官方源码增加了部分配置。
 
 ### 7. rslidar_sdk
 
@@ -46,6 +47,8 @@ gmapping建图功能包。要使用此功能，需要先开启仿真功能和键
 多线激光雷达与单线激光雷达数据转换功能包。根据`sample_node.launch`文件配置参数。
 
 ### 9.robot_localization
-非线性状态估计节点功能包，用于定位。ekf和ukf是两种状态估计器的实现，使用了不同的算法，需要根据yaml配置文件配置参数，注意查看ekf_template.yaml。
+定位功能包源码，此处仅用于了解学习参数配置，应用时请直接在gps.launch中重印射话题名或修改参数。
+ekf和ukf是两种状态估计器的实现，使用了不同的算法，需要根据yaml配置文件配置参数，注意查看ekf_template.yaml。
+详情参考ros官方文档：http://docs.ros.org/en/melodic/api/robot_localization/html/configuring_robot_localization.html
 ---
 

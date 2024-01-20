@@ -1,27 +1,28 @@
 common:
-  msg_source: 1                                         #0: not use Lidar
+  msg_source: 1                                         #消息来源，表示从哪里获取激光雷达数据
+                                                        #0: not use Lidar
                                                         #1: packet message comes from online Lidar
                                                         #2: packet message comes from ROS or ROS2
                                                         #3: packet message comes from Pcap file
-  send_packet_ros: false                                #true: Send packets through ROS or ROS2(Used to record packet)
-  send_point_cloud_ros: true                            #true: Send point cloud through ROS or ROS2
+  send_packet_ros: false                                #是否通过ROS发送激光雷达数据包。
+  send_point_cloud_ros: true                            #是否通过ROS或ROS2发送激光雷达点云。
 lidar:
   - driver:
       lidar_type: RSHELIOS           #LiDAR type - RS16, RS32, RSBP, RSHELIOS, RSHELIOS_16P, RS128, RS80, RS48, RSP128, RSP80, RSP48, 
                                    #             RSM1, RSM1_JUMBO, RSM2, RSE1
       msop_port: 6699              #Msop port of lidar
       difop_port: 7788             #Difop port of lidar
-      start_angle: 270               #Start angle of point cloud
-      end_angle: 90               #End angle of point cloud 
+      start_angle: 290               #点云的起始角度。
+      end_angle: 70               #点云的结束角度。
       wait_for_difop: true
-      min_distance: 1.8          #Minimum distance of point cloud
-      max_distance: 6          #Maximum distance of point cloud
+      min_distance: 1.8          #点云的最小距离。
+      max_distance: 5          #点云的最大距离。
       use_lidar_clock: false       #True--Use the lidar clock as the message timestamp
                                    #False-- Use the system clock as the timestamp
       pcap_path: /home/robosense/lidar.pcap #The path of pcap file
     ros:
       ros_frame_id: rslidar                           #Frame id of packet message and point cloud message
-      ros_recv_packet_topic: /rslidar_packets          #Topic used to receive lidar packets from ROS
-      ros_send_packet_topic: /rslidar_packets          #Topic used to send lidar packets through ROS
-      ros_send_point_cloud_topic: /rslidar_points      #Topic used to send point cloud through ROS
+      ros_recv_packet_topic: /rslidar_packets          #从ROS接收激光雷达数据包的主题。
+      ros_send_packet_topic: /rslidar_packets          #通过ROS发送激光雷达数据包的主题。
+      ros_send_point_cloud_topic: /rslidar_points      #通过ROS发送激光雷达点云的主题。
 

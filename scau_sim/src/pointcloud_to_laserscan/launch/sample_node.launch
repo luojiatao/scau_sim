@@ -19,15 +19,15 @@
         <rosparam>
             target_frame: rslidar # Leave disabled to output scan in pointcloud frame
             transform_tolerance: 0.01
-            min_height: 0.0
-            max_height: 0.5
+            min_height: -0.9         # 指定点云中有效点的最小和最大高度。
+            max_height: -0.1
 
-            angle_min: -1.5708 # -M_PI/2
-            angle_max: 1.5708 # M_PI/2
-            angle_increment: 0.0087 # M_PI/360.0
-            scan_time: 0.3333
-            range_min: 0.45
-            range_max: 4.0
+            angle_min: -3.1415   # -M_PI/2  （指定激光扫描的角度范围）
+            angle_max: 3.1415     # M_PI/2
+            angle_increment: 0.0087 # M_PI/360.0 （指定角度的增量）
+            scan_time: 0.2      # 指定一次完整扫描所需的时间
+            range_min: 0.45          # 指定激光扫描的测距范围
+            range_max: 6.0
             use_inf: true
             inf_epsilon: 1.0
 
