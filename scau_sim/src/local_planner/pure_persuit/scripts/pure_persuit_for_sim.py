@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import math
 from geometry_msgs.msg import Quaternion, PoseStamped, TwistStamped, Twist,PoseWithCovarianceStamped
 from nav_msgs.msg import Path
@@ -8,7 +7,7 @@ from tf import transformations
 import rospy
 
 HORIZON = 1.0
-Velocity = 0.5
+Velocity = 1.0
 
 class PurePersuit:
 	def __init__(self):
@@ -68,17 +67,15 @@ class PurePersuit:
 		#get angle difference
 		alpha = math.atan2(targetY - currentY, targetX - currentX) - yaw
 		l = math.sqrt(math.pow(currentX - targetX, 2) + math.pow(currentY - targetY, 2))
-		if(l > 0.5):										#如果距离大于0.5（阈值），则计算新的航向角度（theta），并生成相应的扭矩命令；否则，将控制刹车。
+		if(l > 0.5):										
 			theta = math.atan(2 * 1.868 * math.sin(alpha) / l)
 			# #get twist command
 			twistCmd = Twist()
-			twistCmd.linear.x = targetSpeed
-			twistCmd.linear.z = 0			#z的线速度为0用于控制主环闪黄灯，表示自动驾驶启动
+			twistCmd.linear.x = targetSpeed			
 			twistCmd.angular.z = theta 
 		else:
 			twistCmd = Twist()
-			twistCmd.linear.x = -0.9	  #控制刹车
-			twistCmd.linear.z = 1			#z的线速度为1用于控制主环亮蓝灯，表示任务完成
+			twistCmd.linear.x = -0.9	  			
 			twistCmd.angular.z = 0
 
 		return twistCmd

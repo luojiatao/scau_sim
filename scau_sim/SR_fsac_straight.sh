@@ -24,14 +24,14 @@ sleep 5s
 
 gnome-terminal --tab -- bash -c "\
 source devel/setup.bash; \
-roslaunch gazebo_nav racecar_nav_straight.launch; \
+roslaunch gazebo_nav amcl.launch; \
 exec bash"
 
 sleep 5s 
 
 gnome-terminal --tab -- bash -c "\
 source devel/setup.bash; \
-roslaunch gazebo_nav amcl.launch; \
+roslaunch gazebo_nav racecar_nav_straight.launch; \
 exec bash"
 
 sleep 5s 
