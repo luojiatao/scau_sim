@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import os
 import csv
 from geometry_msgs.msg import Quaternion, PoseStamped
@@ -12,20 +13,20 @@ from geometry_msgs.msg import PoseWithCovarianceStamped
 CSV_HEADER = ['x', 'y', 'yaw']
 
 
-class WaypointLoader(object):
+class WaypointLoader(object):       
     def __init__(self):
         global  base_path
         global current_pose
         current_pose = PoseWithCovarianceStamped()
         rospy.init_node('waypoint_loader', log_level=rospy.DEBUG)
 
-        self.pub_goal = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=1)
-        self.pub_path = rospy.Publisher('/scau/plan', Path, queue_size=1, latch=True)
+        self.pub_goal = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=1)    #goal表示下一个目标点
+        self.pub_path = rospy.Publisher('/scau/plan', Path, queue_size=1, latch=True)                            #path表示整个规划路径
         rospy.Subscriber("/amcl_pose", PoseWithCovarianceStamped, self.pose_callback,queue_size=1)
         self.new_waypoint_loader(rospy.get_param('~path'))
         rospy.spin()
 
-    def new_waypoint_loader(self, path):
+    def new_waypoint_loader(self, path):    # 用于加载路径点
         if os.path.isfile(path):
             self.load_waypoints(path)
             rospy.loginfo('Waypoint Loded')
@@ -40,7 +41,7 @@ class WaypointLoader(object):
         global current_pose
         current_pose = msg
 
-    def load_waypoints(self, fname):
+    def load_waypoints(self, fname):        # 从CSV文件中加载路径点
         base_path = Path()
         base_path.header.frame_id = 'map'
         with open(fname) as wfile:
@@ -53,7 +54,7 @@ class WaypointLoader(object):
                 path_element.pose.orientation = q 
                 base_path.poses.append(path_element) 
 
-        def publish_thread(base_path):
+        def publish_thread(base_path):      # 创建一个线程发布机器人的目标点，并等待机器人到达目标点。
             for path_element in base_path.poses:
                 goal = PoseStamped()
                 goal.header.frame_id = 'map' 
@@ -63,13 +64,13 @@ class WaypointLoader(object):
                 self.pub_goal.publish(goal)
                 rospy.sleep(0.5)
                 dist =1.5
-                while dist > 1: 
+                while dist > 1:             # 机器人到目标点的距离大于1时，继续等待。
                     dist = np.sqrt((current_pose.pose.pose.position.x - goal.pose.position.x)**2 + (current_pose.pose.pose.position.y - goal.pose.position.y)**2)
 
 
         t = Thread(target=publish_thread, args=(base_path,))
         t.start()
-        self.pub_path.publish(base_path)
+        self.pub_path.publish(base_path)    # 发布整个路径信息
         return base_path
 
 

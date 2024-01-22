@@ -47,6 +47,7 @@ gmapping建图功能包。要使用此功能，需要先开启仿真功能和键
 多线激光雷达与单线激光雷达数据转换功能包。根据`sample_node.launch`文件配置参数。
 
 ### 9.robot_localization
+
 定位功能包源码，此处仅用于了解学习参数配置，应用时请直接在gps.launch中重印射话题名或修改参数。
 ekf和ukf是两种状态估计器的实现，使用了不同的算法，需要根据yaml配置文件配置参数，注意查看ekf_template.yaml。
 详情参考ros官方文档：http://docs.ros.org/en/melodic/api/robot_localization/html/configuring_robot_localization.html
