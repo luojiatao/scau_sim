@@ -5,6 +5,8 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /Status1
+        - /LaserScan1
       Splitter Ratio: 0.5
     Tree Height: 799
   - Class: rviz/Selection
@@ -114,7 +116,7 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.009999999776482582
+      Size (m): 0.10000000149011612
       Style: Flat Squares
       Topic: /scan
       Unreliable: false
@@ -220,7 +222,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: rslidar
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -244,25 +246,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 8.987841606140137
+      Distance: 40.53187561035156
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 2.5429961681365967
-        Y: 0.7049338221549988
-        Z: -1.3925278186798096
+        X: 17.405406951904297
+        Y: 0.7999613881111145
+        Z: 1.8957799673080444
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.8347967863082886
+      Pitch: 0.2597976326942444
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.295011043548584
+      Yaw: 3.105008363723755
     Saved: ~
 Window Geometry:
   Displays:

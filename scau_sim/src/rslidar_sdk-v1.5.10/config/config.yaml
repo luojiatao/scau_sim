@@ -21,7 +21,7 @@ lidar:
                                    #False-- Use the system clock as the timestamp
       pcap_path: /home/robosense/lidar.pcap #The path of pcap file
     ros:
-      ros_frame_id: rslidar                           #Frame id of packet message and point cloud message
+      ros_frame_id: base_link                           #Frame id of packet message and point cloud message
       ros_recv_packet_topic: /rslidar_packets          #从ROS接收激光雷达数据包的主题。
       ros_send_packet_topic: /rslidar_packets          #通过ROS发送激光雷达数据包的主题。
       ros_send_point_cloud_topic: /rslidar_points      #通过ROS发送激光雷达点云的主题。

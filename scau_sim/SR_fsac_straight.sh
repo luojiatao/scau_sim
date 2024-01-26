@@ -2,6 +2,7 @@
 
 gnome-terminal --tab -- bash -c "\
 source devel/setup.bash; \
+sudo chmod 777 /dev/ttyUSB0; \
 roslaunch ins550d gps.launch; \
 exec bash"
 
