@@ -1,7 +1,7 @@
-# Navsat (convert GPS coordinates to Cartesian)
+# Navsat (将GPS坐标转换为笛卡尔坐标)
 navsat:
   frequency: 50
-  wait_for_datum: false
+  wait_for_datum: false   # 如果设置为 true，则 navsat 模块会等待接收到初始位置信息（datum）后再开始处理数据。
   delay: 0.0
   magnetic_declination_radians: 0
   yaw_offset: 0
@@ -16,33 +16,23 @@ ekf_gps:
   map_frame: map
   odom_frame: odom
   base_link_frame: base_link
-  world_frame: odom
+  world_frame: map
 
   frequency: 50
-  two_d_mode: false
+  two_d_mode: true
   sensor_timeout: 0.01
   # -------------------------------------
   # External IMU:
   # -------------------------------------
   imu0: /imu/data
   # make sure the input is aligned with ROS REP105. "imu_correct" is manually transformed by myself. EKF can also transform the data using tf between your imu and base_link
-  imu0_config:
+  imu0_config:        #值的顺序是x，y，z，滚动，俯仰，偏航，vx，vy，vz，vroll，vpitch，vyaw，ax，ay，az
     [
-      false,
-      false,
-      false,
-      true,
-      true,
-      true,
-      false,
-      false,
-      false,
-      false,
-      false,
-      true,
-      true,
-      true,
-      true,
+      false, false, false,
+      false, false, true,
+      false, false, false,
+      false, false, true,
+      true, false, false,
     ]
   imu0_differential: false
   imu0_queue_size: 50
@@ -53,21 +43,11 @@ ekf_gps:
   odom0: odometry/gps
   odom0_config:
     [
-      true,
-      true,
-      true,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
+      true, true, false,
+      false, false, false,
+      false, false, false,
+      false, false, false,
+      false, false, false,
     ]
   odom0_differential: false
   odom0_queue_size: 10

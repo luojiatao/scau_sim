@@ -36,19 +36,23 @@ gmapping建图功能包。要使用此功能，需要先开启仿真功能和键
 
 ### 6. INS550D_ROS_Driver_V1.2
 
-与ASENSING_INS_Driver_V1.02共同组成导航仪驱动功能包。根据`gps.launch`文件配置参数。已根据官方源码增加了部分配置。
+与ASENSING_INS_Driver_V1.02共同组成导航仪驱动功能包。用于发布初始imu和gps消息。
 
-### 7. rslidar_sdk
+### 7. gps2odom
+
+用于使用robot_localization融合IMU数据和GPS数据生成odom以定位。根据`gps2odom.yaml `文件配置参数。
+
+### 8. rslidar_sdk
 
 多线激光雷达驱动功能包（32线）。根据`config.yaml`文件配置参数。
 
-### 8. pointcloud_to_laserscan
+### 9 . pointcloud_to_laserscan
 
 多线激光雷达与单线激光雷达数据转换功能包。根据`sample_node.launch`文件配置参数。
 
-### 9.robot_localization
+### 10.robot_localization
 
-定位功能包源码，此处仅用于了解学习参数配置，应用时请直接在gps.launch中重印射话题名或修改参数。
+定位功能包源码，此处仅用于了解学习参数配置，应用时请直接在gps2odom包中修改参数。
 ekf和ukf是两种状态估计器的实现，使用了不同的算法，需要根据yaml配置文件配置参数，注意查看ekf_template.yaml。
 详情参考ros官方文档：http://docs.ros.org/en/melodic/api/robot_localization/html/configuring_robot_localization.html
 ---
