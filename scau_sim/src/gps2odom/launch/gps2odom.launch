@@ -5,11 +5,12 @@
     <node pkg="tf" type="static_transform_publisher" name="static_transform_publisher" 
 	  args="0 0 0 0 0 0 1  /base_link /imu_base 10" />
 
-    <!-- 启动set_pose节点，发布初始化位姿 -->
-    <node pkg="gps2odom" type="set_pose" name="set_pose"/>
+    <!-- 启动set_pose节点，发布初始化位姿  -->
+    <!-- <node pkg="gps2odom" type="set_pose" name="set_pose"/> -->
+   
 
-    <!-- EKF GPS-->
-    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_gps" respawn="true">
+    <!-- EKF FOR IMU-->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_imu" respawn="true">
         <remap from="odometry/filtered" to="odom" />
         <param name="two_d_mode" value="true"/>      
     </node>
@@ -20,6 +21,13 @@
         <remap from="gps/fix" to="imu/gps" />
         <remap from="odometry/filtered" to="odom" />
     </node>
+
+    <!-- EKF for Fusing IMU and Transformed GPS Data -->
+    <!-- <node pkg="robot_localization" type="ekf_localization_node" name="ekf_gps_imu" respawn="true">
+        <remap from="odometry/filtered" to="odom"/>
+        <param name="two_d_mode" value="true"/>      
+    </node> -->
+
 
   <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find ins550d)/rviz/demo.rviz" required="true"/> //启动导航仪实时位姿rviz-->
 
