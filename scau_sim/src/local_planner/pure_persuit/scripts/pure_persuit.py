@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import math
-from geometry_msgs.msg import Quaternion, PoseStamped, TwistStamped, Twist,PoseWithCovarianceStamped
-from nav_msgs.msg import Path
+from geometry_msgs.msg import Quaternion, PoseStamped, TwistStamped, Twist
+from nav_msgs.msg import Path,Odometry
 import tf
 from tf import transformations
 import rospy
@@ -16,7 +16,7 @@ Velocity = 0.5
 class PurePersuit:
 	def __init__(self):
 		rospy.init_node('pure_persuit', log_level=rospy.DEBUG)
-		rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, self.pose_cb, queue_size = 1)
+		rospy.Subscriber('/odom', Odometry, self.pose_cb, queue_size = 1)
 		rospy.Subscriber('/local_path', Path, self.path_cb, queue_size = 1)
 
 		self.twist_pub = rospy.Publisher('/cmd_vel', Twist, queue_size = 1)
@@ -36,7 +36,7 @@ class PurePersuit:
 			rate.sleep()
 
 	def pose_cb(self,data):
-		self.currentpose = data.pose
+		self.currentpose = data.pose.pose
 
 	def path_cb(self,data):
 		self.currentpath = data

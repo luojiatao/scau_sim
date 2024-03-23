@@ -3,12 +3,12 @@
 import os
 import csv
 from geometry_msgs.msg import Quaternion, PoseStamped
-from nav_msgs.msg import Path
+from nav_msgs.msg import Path,Odometry
 from threading import Thread
 import tf
 import rospy
 import numpy as np
-from geometry_msgs.msg import PoseWithCovarianceStamped
+
 
 CSV_HEADER = ['x', 'y', 'yaw']
 
@@ -17,12 +17,12 @@ class WaypointLoader(object):
     def __init__(self):
         global  base_path
         global current_pose
-        current_pose = PoseWithCovarianceStamped()
+        current_pose = Odometry()
         rospy.init_node('waypoint_loader', log_level=rospy.DEBUG)
 
         self.pub_goal = rospy.Publisher('/move_base_simple/goal', PoseStamped, queue_size=1)    #goal表示下一个目标点
         self.pub_path = rospy.Publisher('/scau/plan', Path, queue_size=1, latch=True)                            #path表示整个规划路径
-        rospy.Subscriber("/amcl_pose", PoseWithCovarianceStamped, self.pose_callback,queue_size=1)
+        rospy.Subscriber("/odom", Odometry, self.pose_callback,queue_size=1)
         self.new_waypoint_loader(rospy.get_param('~path'))
         rospy.spin()
 

@@ -1,6 +1,6 @@
 # Navsat (将GPS坐标转换为笛卡尔坐标)
 navsat:
-  frequency: 50
+  frequency: 80
   wait_for_datum: false   # 如果设置为 true，则 navsat 模块会等待接收到初始位置信息（datum）后再开始处理数据。
   delay: 0.0
   magnetic_declination_radians: 0
@@ -18,7 +18,7 @@ ekf_imu:
   base_link_frame: base_link
   world_frame: odom
 
-  frequency: 50
+  frequency: 80
   two_d_mode: true
   sensor_timeout: 0.01
 
