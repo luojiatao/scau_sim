@@ -16,19 +16,19 @@ exec bash"
 
 sleep 5s
 
-# gnome-terminal --tab -- bash -c "\
-# source devel/setup.bash; \
-# roslaunch rslidar_sdk start.launch; \
-# exec bash"
+gnome-terminal --tab -- bash -c "\
+source devel/setup.bash; \
+roslaunch rslidar_sdk start.launch; \
+exec bash"
 
-# sleep 5s  
+sleep 5s  
 
-# gnome-terminal --tab -- bash -c "\
-# source devel/setup.bash; \
-# roslaunch pointcloud_to_laserscan sample_node.launch; \
-# exec bash"
+gnome-terminal --tab -- bash -c "\
+source devel/setup.bash; \
+roslaunch pointcloud_to_laserscan sample_node.launch; \
+exec bash"
 
-# sleep 5s 
+sleep 5s 
 
 gnome-terminal --tab -- bash -c "\
 source devel/setup.bash; \

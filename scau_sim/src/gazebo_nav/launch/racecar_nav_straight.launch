@@ -22,9 +22,8 @@
 		command="load" />
 		<param name="planner_frequency" value="10" />
 		<param name="planner_patience" value="10" />
-		<!--param name="use_dijkstra" value="true" /-->
-		<param name="base_local_planner"
-		value="teb_local_planner/TebLocalPlannerROS" />
+		<param name="base_global_planner" value="global_planner/GlobalPlanner"/>
+		<param name="base_local_planner"    value="teb_local_planner/TebLocalPlannerROS" />
 		<remap from="/move_base/TebLocalPlannerROS/local_plan" to="local_path" />
 		<!--禁用teb的速度指令 /-->
 		<remap from="cmd_vel" to="cmd_vel_blocked" />
@@ -32,7 +31,6 @@
 		<param name="controller_frequency" value="10.0" />
 		<param name="controller_patience" value="10.0" />
 		<param name="clearing_rotation_allowed" value="false" />
-		<param name="base_global_planner" value="global_planner/GlobalPlanner"/>
 	</node>
 	<!-- **************** Visualisation **************** -->
 	<!-- <node name="rviz" pkg="rviz" type="rviz" required="true"

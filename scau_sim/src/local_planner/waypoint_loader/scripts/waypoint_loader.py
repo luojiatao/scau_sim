@@ -43,7 +43,7 @@ class WaypointLoader(object):
 
     def load_waypoints(self, fname):        # 从CSV文件中加载路径点
         base_path = Path()
-        base_path.header.frame_id = 'map'
+        base_path.header.frame_id = 'odom'
         with open(fname) as wfile:
             reader = csv.DictReader(wfile, CSV_HEADER)
             for wp in reader:
@@ -54,23 +54,23 @@ class WaypointLoader(object):
                 path_element.pose.orientation = q 
                 base_path.poses.append(path_element) 
 
-        def publish_thread(base_path):      # 创建一个线程发布机器人的目标点，并等待机器人到达目标点。
+        def publish_thread(base_path):      
             for path_element in base_path.poses:
                 goal = PoseStamped()
-                goal.header.frame_id = 'map' 
+                goal.header.frame_id = 'odom' 
                 goal.pose.position.x = path_element.pose.position.x
                 goal.pose.position.y =  path_element.pose.position.y
                 goal.pose.orientation =  path_element.pose.orientation
                 self.pub_goal.publish(goal)
-                rospy.sleep(0.5)
+                rospy.sleep(0.5)                            #将线程执行暂停 0.5 秒，允许机器人有时间开始朝目标移动。
                 dist =1.5
-                while dist > 1:             # 机器人到目标点的距离大于1时，继续等待。
+                while dist > 1:             # 机器人到目标点的距离大于1时，继续等待。（即只有当距离小于等于1后才发布新的目标点给路径规划）
                     dist = np.sqrt((current_pose.pose.pose.position.x - goal.pose.position.x)**2 + (current_pose.pose.pose.position.y - goal.pose.position.y)**2)
 
 
-        t = Thread(target=publish_thread, args=(base_path,))
+        t = Thread(target=publish_thread, args=(base_path,))   # 在单独线程中发布机器人的目标点，并等待机器人到达目标点。
         t.start()
-        self.pub_path.publish(base_path)    # 发布整个路径信息
+        self.pub_path.publish(base_path)    # 主线程发布全局路径信息以供可视化或进一步处理
         return base_path
 
 

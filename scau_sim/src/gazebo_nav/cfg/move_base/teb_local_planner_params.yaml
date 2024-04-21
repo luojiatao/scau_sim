@@ -1,10 +1,10 @@
 TebLocalPlannerROS:
   odom_topic: odom
-  map_frame: /map
+  map_frame: /odom  #全局坐标系
   # Trajectoty 这部分主要是用于调整轨迹
   teb_autosize: True #优化期间允许改变轨迹的时域长度
   dt_ref: 0.3 #期望的轨迹时间分辨率
-  dt_hysteresis: 0.03 #根据当前时间分辨率自动调整大小的滞后现象，通常约为。建议使用dtref的10%
+  dt_hysteresis: 0.03 #根据当前时间分辨率自动调整大小的滞后现象，通常约为建议使用dtref的10%
   #覆盖全局规划器提供的局部子目标的方向;规划局部路径时会覆盖掉全局路径点的方位角,
   #对于车辆的2D规划,可以设置为False,可实现对全局路径的更好跟踪。
   global_plan_overwrite_orientation: True
@@ -52,21 +52,21 @@ TebLocalPlannerROS:
   # GoalTolerance
   footprint_model:
     type: "polygon"
-    vertices: [[0.15, 0.15], [0.15, -0.15], [-0.15, -0.15], [-0.15, 0.15]]
+    vertices: [[0.50, 0.50], [0.50, -0.50], [-0.50, -0.50], [-0.50, 0.50]]
   xy_goal_tolerance: 0.3
   yaw_goal_tolerance: 0.5
   #自由目标速度。设为False时，车辆到达终点时的目标速度为0。
   #TEB是时间最优规划器。缺少目标速度约束将导致车辆“全速冲线”
-  free_goal_vel: True
+  free_goal_vel: False
   # complete_global_plan: True
   # Obstacles
-  min_obstacle_dist: 0.05 # 与障碍的最小期望距离,
-  include_costmap_obstacles: True #应否考虑到局部costmap的障碍设置为True后才能规避实时探测到的、建图时不存在的障碍物。
+  min_obstacle_dist: 0.2 # 与障碍的最小期望距离,
+  include_costmap_obstacles: False #应否考虑到局部costmap的障碍，设置为True后才能规避实时探测到的、建图时不存在的障碍物。
   costmap_obstacles_behind_robot_dist: 3.0 #考虑后面n米内的障碍物2.0
   obstacle_poses_affected: 30 #为了保持距离，每个障碍物位置都与轨道上最近的位置相连。
   costmap_converter_spin_thread: True
   costmap_converter_rate: 5
-  # Optimization
+  # Optimization(最优化设置)
   no_inner_iterations: 5
   no_outer_iterations: 4
   optimization_activate: True

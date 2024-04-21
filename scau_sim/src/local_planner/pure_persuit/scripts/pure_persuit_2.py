@@ -10,19 +10,20 @@ import time
 
 time.sleep(3)  			#休眠三秒后启动
 
-HORIZON = 1.0     #定义最大前瞻距离
-Velocity = 0.5
+# HORIZON = 1.0    不使用前瞻距离判断目标点
+Velocity = 0.5 			#车辆行驶速度
 
 class PurePersuit:
 	def __init__(self):
 		rospy.init_node('pure_persuit', log_level=rospy.DEBUG)
 		rospy.Subscriber('/odom', Odometry, self.pose_cb, queue_size = 1)
-		rospy.Subscriber('/local_path', Path, self.path_cb, queue_size = 1)
+		rospy.Subscriber('/scau/plan', Path, self.path_cb, queue_size = 1)
 
 		self.twist_pub = rospy.Publisher('/cmd_vel', Twist, queue_size = 1)
 
 		self.currentpose = None
 		self.currentpath = None
+		self.target_reached = False    # 初始化是否到达目标点标志位
 
 		self.loop()
 
@@ -38,35 +39,35 @@ class PurePersuit:
 	def pose_cb(self,data):
 		self.currentpose = data.pose.pose
 
-	def path_cb(self,data):
-		self.currentpath = data
+	def path_cb(self,plan_msg):
+		# 从 Path 消息中提取poses数组坐标点
+		path_points = plan_msg.poses
+
+		# 迭代路径点
+		for i in range(len(path_points)):
+			#检查是否已经遍历到路径中的最后一个点
+			if i <= len(path_points) - 1:
+				# 检查是否已到达目标点
+				if self.target_reached:
+					# 移动到下一个路径点
+					target_pose = path_points[i + 1]
+					break
+				else:
+					target_pose = path_points[i]
+					break
+
+		# 设置要前往的路径点
+		self.currentpath = target_pose
 
 	def calculateTwistCommand(self):
-		lad = 0.0 						#  前瞻距离累加器
-		targetIndex = len(self.currentpath.poses) - 1	#初始化目标点索引为路径上最后一个点的索引，假设最初目标为路径的最末端。
-		#  遍历局部路径上的所有路径点
-		for i in range(len(self.currentpath.poses)):
-			if((i+1) < len(self.currentpath.poses)):
-				# 获取当前路径点和下一个路径点的坐标信息
-				this_x = self.currentpath.poses[i].pose.position.x
-				this_y = self.currentpath.poses[i].pose.position.y
-				next_x = self.currentpath.poses[i+1].pose.position.x
-				next_y = self.currentpath.poses[i+1].pose.position.y
-				# 计算当前路径点与下一个路径点之间的直线距离，并将其累加到前瞻距离累加器中。
-				lad = lad + math.hypot(next_x - this_x, next_y - this_y)
-				# 判断是否达到前瞻距离阈值
-				if(lad > HORIZON):
-					# 获取目标点索引
-					targetIndex = i+1		#将索引i+1作为目标点索引
-					break							   #跳出for循环，对目标点进行纯跟踪
-
+		
 		# 获取目标位姿
-		targetpose = self.currentpath.poses[targetIndex]
+		target_pose = self.currentpath
 
 		targetSpeed = Velocity
 
-		targetX = targetpose.pose.position.x
-		targetY = targetpose.pose.position.y		
+		targetX = target_pose.pose.position.x
+		targetY = target_pose.pose.position.y		
 		currentX = self.currentpose.pose.position.x
 		currentY = self.currentpose.pose.position.y
 		# 获取车辆当前偏航角度（默认用弧度表示）
@@ -90,10 +91,11 @@ class PurePersuit:
 						twistCmd.angular.z = 0
 					else:
 						twistCmd.angular.z = turn
-		else:												# 如果距离 < 0.5，即快要到达全局路径终点
+		else:												# 如果距离 < 0.2，即快要到达时，设置为刹车或空
 			twistCmd = Twist()
 			twistCmd.linear.x=-0.9			  # 控制刹车（测试时不行的话改成0）
-			twistCmd.linear.z=1    				#完成任务，亮蓝色
+			twistCmd.linear.z=1    				# 完成任务，亮蓝色
+			self.target_reached = True    # 标记目标点已到达
 
 		print('linear:'+str(twistCmd.linear.x)+'  angular:'+str(twistCmd.angular.z))
 		return twistCmd

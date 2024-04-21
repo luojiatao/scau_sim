@@ -4,7 +4,7 @@
 # robot_base_frame:机器人的基坐标系;
 #
 global_costmap:
-  global_frame: map
+  global_frame: odom
   robot_base_frame: base_link # base_footprint
   transform_tolerance: 0.5
   update_frequency: 15.0
@@ -16,4 +16,4 @@ global_costmap:
   inflation_layer:
     enabled: true
     cost_scaling_factor: 10.0 # exponential rate at which the obstacle cost drops off (default: 10)
-    inflation_radius: 0.4 # max. distance from an obstacle at which costs are incurred for planning paths.
+    inflation_radius: 0.4 # 距离障碍物的距离的最大值，在超过该距离后规划路径会产生成本
