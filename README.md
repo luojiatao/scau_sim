@@ -28,7 +28,7 @@ gmapping建图功能包。要使用此功能，需要先开启仿真功能和键
 
 ### 4. local_planner
 
-包含路径加载模块和纯跟踪控制器模块。所有路径点的csv文件存放在`/local_planner/waypoint_loader/waypoints`下。
+包含路径加载模块和纯跟踪控制器模块。所有路径点的csv文件存放在`/local_planner/waypoint_loader/waypoints`下。纯跟踪脚本里pure_persuit_2.py用于不使用局部路径规划器的情况下进行控制。
 
 ### 5. teleop_twist_keyboard
 
