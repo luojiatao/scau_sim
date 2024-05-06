@@ -37,7 +37,7 @@ class PurePersuit:
 			rate.sleep()
 
 	def pose_cb(self,data):
-		self.currentpose = data.pose.pose
+		self.currentpose = data.pose
 
 	def path_cb(self,plan_msg):
 		# 从 Path 消息中提取poses数组坐标点
@@ -58,6 +58,7 @@ class PurePersuit:
 
 		# 设置要前往的路径点
 		self.currentpath = target_pose
+		rospy.logdebug('Already get Path~~~~')
 
 	def calculateTwistCommand(self):
 		
@@ -75,26 +76,28 @@ class PurePersuit:
 		euler = tf.transformations.euler_from_quaternion(quanternion)	# 四元数转欧拉角
 		yaw = euler[2]
 		# 计算目标点与车辆当前朝向之间的相对角度以及距离
-		alpha = math.atan2(targetY - currentY, targetX - currentX) - yaw
+		alpha = math.atan2(targetY - currentY, targetX - currentX) - yaw - 1.57079  #2024.5.1这里减去二分之π是因为当前运动方向是y轴正方向，需要考虑到相对转角
 		l = math.sqrt(math.pow(currentX - targetX, 2) + math.pow(currentY - targetY, 2))
 		if(l > 0.2):										#（可调）如果距离大于0.2（阈值），则通过纯跟踪算法计算新的航向角度，并生成相应的转向角度
 			theta = math.atan(2 * 1.868 * math.sin(alpha) / l)
-			angle_degrees= -(math.degrees(theta)+90)
+			angle_degrees= -(math.degrees(theta)+90) + 90 									#2024.5.1这里加上90也是为了修正，但不清楚具体意义
 			#设置异常停止
 			if angle_degrees<90:
 				turn=angle_degrees/90
 				twistCmd = Twist() 
+				rospy.loginfo('turn = {}'.format(turn))		#输出终端，用于调试
 				if abs(turn) < 0.95:			# 防止过度转向
 					twistCmd.linear.x=targetSpeed
-					twistCmd.linear.z=0    		   # z的线速度为0用于控制主环闪黄灯，表示自动驾驶启动
-					if abs(turn) < 0.15 :
+					twistCmd.linear.z=0    		   # z值为0时控制主环闪黄灯，表示自动驾驶启动
+					if abs(turn) < 0.15 :		#忽略细微的转向
+						# rospy.loginfo('abs(turn)  < 0.95')
 						twistCmd.angular.z = 0
 					else:
-						twistCmd.angular.z = turn
+						twistCmd.angular.z = -turn		#大于0为左转，小于0为右转，2024.5.2这里取负也是为了修正
 		else:												# 如果距离 < 0.2，即快要到达时，设置为刹车或空
 			twistCmd = Twist()
-			twistCmd.linear.x=-0.9			  # 控制刹车（测试时不行的话改成0）
-			twistCmd.linear.z=1    				# 完成任务，亮蓝色
+			twistCmd.linear.x=0			  # 控制刹车（测试时不行的话改成0）
+			twistCmd.linear.z=1    				# 完成任务，亮蓝色(测试时也可以改为0)
 			self.target_reached = True    # 标记目标点已到达
 
 		print('linear:'+str(twistCmd.linear.x)+'  angular:'+str(twistCmd.angular.z))

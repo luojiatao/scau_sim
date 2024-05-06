@@ -136,79 +136,17 @@ link_directories(
 # 生成可执行文件
 add_executable(mycan_pub src/mycan_pub.cpp)
 ##add_executable(test_1 src/test_1.cpp)
-add_executable(ecu_pub src/ecu_pub.cpp)
-add_executable(ecu_dj_pub src/ecu_dj_pub.cpp)
-
-##add_executable(ecu_tongshi src/ecu_tongshi.cpp)
-add_executable(pub_sametime src/pub_sametime.cpp)
-
-add_executable(demo01_pub_can1 src/demo01_pub_can1.cpp)
-##add_executable(demo02_rec_can2 src/demo02_rec_can2.cpp)
-add_executable(cmd_pub src/cmd_pub.cpp)
-add_executable(turn_1 src/turn_1.cpp)
-add_executable(cmd_gz src/cmd_gz.cpp)
-add_executable(can_sub src/can_sub.cpp)
-
-# 链接库
-target_link_libraries(ecu_dj_pub  
-  ${catkin_LIBRARIES}
-  controlcan #链接动态链接库libcontrolcan.so，但是要注意这里写的时候仅保留创建时所用到的名称，所以要去掉前缀lib和后缀.so
- )
+add_executable(serial_can_out src/serial_can_out.cpp)
 
 # 链接库
 target_link_libraries(mycan_pub  
   ${catkin_LIBRARIES}
   controlcan #链接动态链接库libcontrolcan.so，但是要注意这里写的时候仅保留创建时所用到的名称，所以要去掉前缀lib和后缀.so
  )
-target_link_libraries(ecu_pub  
-${catkin_LIBRARIES}
-controlcan #链接动态链接库libcontrolcan.so，但是要注意这里写的时候仅保留创建时所用到的名称，所以要去掉前缀lib和后缀.so
-)
-
-target_link_libraries(turn_1 
-${catkin_LIBRARIES}
-controlcan #链接动态链接库libcontrolcan.so，但是要注意这里写的时候仅保留创建时所用到的名称，所以要去掉前缀lib和后缀.so
-)
-
-target_link_libraries(cmd_gz 
-${catkin_LIBRARIES}
-controlcan #链接动态链接库libcontrolcan.so，但是要注意这里写的时候仅保留创建时所用到的名称，所以要去掉前缀lib和后缀.so
-)
-
-# target_link_libraries(test_1
-# ${catkin_LIBRARIES}
-# controlcan #链接动态链接库libcontrolcan.so，但是要注意这里写的时候仅保留创建时所用到的名称，所以要去掉前缀lib和后缀.so
-# )
-
-# target_link_libraries(ecu_tongshi
-# ${catkin_LIBRARIES}
-# controlcan #链接动态链接库libcontrolcan.so，但是要注意这里写的时候仅保留创建时所用到的名称，所以要去掉前缀lib和后缀.so
-# )
-target_link_libraries(pub_sametime
-${catkin_LIBRARIES}
-controlcan #链接动态链接库libcontrolcan.so，但是要注意这里写的时候仅保留创建时所用到的名称，所以要去掉前缀lib和后缀.so
-)
-
-target_link_libraries(demo01_pub_can1
-${catkin_LIBRARIES}
-controlcan #链接动态链接库libcontrolcan.so，但是要注意这里写的时候仅保留创建时所用到的名称，所以要去掉前缀lib和后缀.so
-)
-# target_link_libraries(demo02_rec_can2
-# ${catkin_LIBRARIES}
-# controlcan #链接动态链接库libcontrolcan.so，但是要注意这里写的时候仅保留创建时所用到的名称，所以要去掉前缀lib和后缀.so
-# )
-
-
-target_link_libraries(cmd_pub
-${catkin_LIBRARIES}
-controlcan #链接动态链接库libcontrolcan.so，但是要注意这里写的时候仅保留创建时所用到的名称，所以要去掉前缀lib和后缀.so
-)
-
-target_link_libraries(can_sub
-${catkin_LIBRARIES}
-controlcan #链接动态链接库libcontrolcan.so，但是要注意这里写的时候仅保留创建时所用到的名称，所以要去掉前缀lib和后缀.so
-)
-
+ target_link_libraries(serial_can_out  
+  ${catkin_LIBRARIES}
+  controlcan #链接动态链接库libcontrolcan.so，但是要注意这里写的时候仅保留创建时所用到的名称，所以要去掉前缀lib和后缀.so
+ )
 # 生成可执行文件
 
 

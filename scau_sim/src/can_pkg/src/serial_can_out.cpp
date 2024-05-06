@@ -88,7 +88,7 @@ class turn_on_robot
             send[0].Data[7] = 0;
 
             //判断是否发送成功，发送成功则在终端打印数据，否则打印发送失败
-            if(VCI_Transmit(VCI_USBCAN2, 0, 0, send, 1) == 1)       
+            if(VCI_Transmit(VCI_USBCAN2, 0, 0, send, 1) == 1)       //第三个参数表示CAN通信索引号，不确定
             {
                 std::lock_guard<std::mutex> lock(mtx2);
                 printf("Index:%04d  ",count);count++;
