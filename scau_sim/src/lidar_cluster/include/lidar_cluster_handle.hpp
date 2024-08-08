@@ -45,6 +45,8 @@ class LidarClusterHandle {
   ros::NodeHandle nodeHandle_;
   ros::Subscriber rawLidarSubscriber_;
 
+  ros::Publisher cones_pub;
+  ros::Publisher ground_pub;
   ros::Publisher lidarClusterPublisher_;
   ros::Publisher filterGroundPublisher_;
   ros::Publisher filterConesPublisher_;

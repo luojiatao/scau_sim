@@ -34,6 +34,9 @@ void LidarCluster::loadParameters() {
 
 // Getters
 sensor_msgs::PointCloud LidarCluster::getLidarCluster() { return cluster_; }
+// 发布拟合地面后分离出来的地面和非地面点云以在rviz中进行可视化调试
+sensor_msgs::PointCloud2 LidarCluster::getfilter_ground_() { return filter_ground_; }
+sensor_msgs::PointCloud2 LidarCluster::getfilter_cones_() { return filter_cones_; }
 
 bool LidarCluster::is_ok() const { return is_ok_flag_; }
 
@@ -60,8 +63,12 @@ void LidarCluster::runAlgorithm() {
   preprocessing(raw_pc_, cloud_ground, cloud_cones);
 
   // 对路锥点云进行聚类处理
-  ClusterProcessing(cloud_cones, 0.8);
+  ClusterProcessing(cloud_cones, 0.5);
 
+  filter_ground_.header.frame_id = "/rslidar";
+  filter_ground_.header.stamp = raw_pc2_.header.stamp;
+  filter_cones_.header.frame_id = "/rslidar";
+  filter_cones_.header.stamp = raw_pc2_.header.stamp;
   cluster_.header.frame_id = "/rslidar";
   cluster_.header.stamp = raw_pc2_.header.stamp;
   is_ok_flag_ = true;
@@ -74,7 +81,15 @@ void LidarCluster::preprocessing(
 
   pcl::PointCloud<pcl::PointXYZI> filtered;
 
-  // 预处理过滤点云
+  std::cout << "过滤前的原始点云数量为: " << raw.points.size() << std::endl;
+/*  预处理过滤点云：
+首先，对原始点云中的每个点进行遍历，通过一些条件来过滤掉不感兴趣的点：
+距离过滤：如果点在 x-y 平面上的距离小于 sqrt(2)（约 1.414 米），认为其过于接近车辆，被过滤掉。
+高度过滤：如果点的 z 值大于 0.7 米，认为其过高，被过滤掉。
+前后过滤：x < 0 的点被过滤掉，这意味着车辆后方的点不被处理。
+远距离地面过滤：如果点在远距离（x-y 平面上的距离大于 7 米）且 z 值小于 0.03 米，被认为是远处的地面点，过滤掉。
+通过上述条件筛选后的点被存入新的点云 filtered 中。*/
+
   for (auto &iter : raw.points) {
     if (std::hypot(iter.x, iter.y) < sqrt(2) || iter.z > 0.7 ||
         (std::hypot(iter.x, iter.y) > 7 && iter.z < 0.03))
@@ -83,18 +98,24 @@ void LidarCluster::preprocessing(
       continue;
     filtered.points.push_back(iter);
   }
-  std::cout << "过滤前的原始点云数量为: " << raw.points.size() << std::endl;
+  std::cout << "预处理过滤后的点云数量为: " << filtered.points.size() << std::endl;
 
-  pcl::ModelCoefficients::Ptr coefficients(new pcl::ModelCoefficients);
-  pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
+/*平面分割：
+使用 PCL 的 SACSegmentation 对象进行平面分割。
+seg.setModelType(pcl::SACMODEL_PLANE) 设置分割模型为平面模型。
+seg.setMethodType(pcl::SAC_RANSAC) 使用随机采样一致性（RANSAC）算法来拟合平面。
+seg.setDistanceThreshold(0.07) 设置距离阈值为 0.07 米，即点与拟合平面的距离小于 0.07 米时，被认为是属于平面的点。
+seg.segment(*inliers, *coefficients) 执行分割操作，输出平面的内点（inliers）和平面系数（coefficients）。*/
+  pcl::ModelCoefficients::Ptr coefficients(new pcl::ModelCoefficients);     //coefficients 用于存储地面模型的参数（例如平面的法向量和截距）。
+  pcl::PointIndices::Ptr inliers(new pcl::PointIndices);    //inliers 用于存储属于地面的点的索引。
   // Create the segmentation object
   pcl::SACSegmentation<pcl::PointXYZI> seg;
-  // Optional
+  // Optional（允许优化模型系数）
   seg.setOptimizeCoefficients(true);
-  // Mandatory
+  // Mandatory（必选的）
   seg.setModelType(pcl::SACMODEL_PLANE);
   seg.setMethodType(pcl::SAC_RANSAC);
-  // set Distance Threshold
+  // 距离阈值
   seg.setDistanceThreshold(0.07);
   seg.setInputCloud(filtered.makeShared());
   seg.segment(*inliers, *coefficients);
@@ -107,13 +128,13 @@ void LidarCluster::preprocessing(
    */
 
   // extract ground
-  pcl::ExtractIndices<pcl::PointXYZI> extract;
-  extract.setInputCloud(raw.makeShared());
-  extract.setIndices(inliers);
-  extract.filter(*cloud_ground);
+  pcl::ExtractIndices<pcl::PointXYZI> extract;    //pcl::ExtractIndices 是一个提取对象，用于根据索引提取点云中的特定点。
+  extract.setInputCloud(filtered.makeShared());    // 设置输入点云为原始点云 raw。
+  extract.setIndices(inliers);                                      //设置要提取的点的索引为地面点 inliers。
+  extract.filter(*cloud_ground);                              //将提取的地面点存储到 cloud_ground 中。
 
   // extract cone
-  extract.setNegative(true);
+  extract.setNegative(true);                                      //反转提取逻辑，这样它会提取非地面点（即不属于 inliers 的点）。
   extract.filter(*cloud_cones);
 
   std::cout << "过滤掉地面后的锥桶点云数量为: " << cloud_cones->size() << std::endl;
@@ -143,7 +164,7 @@ void LidarCluster::ClusterProcessing( const pcl::PointCloud<pcl::PointXYZI>::Ptr
       new pcl::search::KdTree<pcl::PointXYZI>);
   tree->setInputCloud(cloud_filtered);
 
-  std::cout << "输入KD树的点云数量为: " << cloud_filtered->size() << std::endl;
+  std::cout << "实际输入KD树的点云数量为: " << cloud_filtered->size() << std::endl;
 
 // 欧几里得聚类：
     // 使用 PCL 的 EuclideanClusterExtraction 对象 ec 进行聚类提取。

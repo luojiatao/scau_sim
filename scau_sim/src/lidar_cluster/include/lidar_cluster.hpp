@@ -48,6 +48,8 @@ class LidarCluster {
 
   // Getters
   sensor_msgs::PointCloud getLidarCluster();
+  sensor_msgs::PointCloud2 getfilter_ground_();
+  sensor_msgs::PointCloud2 getfilter_cones_();
 
   bool is_ok() const;
 

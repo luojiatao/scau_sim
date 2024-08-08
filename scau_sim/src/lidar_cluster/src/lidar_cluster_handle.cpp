@@ -61,6 +61,8 @@ void LidarClusterHandle::subscribeToTopics() {
 void LidarClusterHandle::publishToTopics() {
   ROS_INFO("publish to topics");
   lidarClusterPublisher_ = nodeHandle_.advertise<sensor_msgs::PointCloud>(lidar_cluster_topic_name_, 1);
+  ground_pub = nodeHandle_.advertise<sensor_msgs::PointCloud2>("ground_points", 1);
+  cones_pub = nodeHandle_.advertise<sensor_msgs::PointCloud2>("cones_points", 1);
 }
 
 void LidarClusterHandle::run() {
@@ -76,6 +78,8 @@ void LidarClusterHandle::sendMsg() {
   if(!lidar_cluster_.is_ok())
     return;
   lidarClusterPublisher_.publish(lidar_cluster_.getLidarCluster());
+  ground_pub.publish(lidar_cluster_.getfilter_ground_());
+  cones_pub.publish(lidar_cluster_.getfilter_cones_());
 }
 
 void LidarClusterHandle::rawLidarCallback(const sensor_msgs::PointCloud2 &msg) {
