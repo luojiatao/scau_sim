@@ -1,25 +1,29 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import math
-from geometry_msgs.msg import Quaternion, PoseStamped, TwistStamped, Twist,PoseWithCovarianceStamped
-from nav_msgs.msg import Path
+from geometry_msgs.msg import Quaternion, PoseStamped, TwistStamped, Twist
+from nav_msgs.msg import Path,Odometry
 import tf
 from tf import transformations
 import rospy
+import time
 
-HORIZON = 1.0
-Velocity = 0.5
+time.sleep(3)  			#休眠三秒后启动
+
+# HORIZON = 1.0    不使用前瞻距离判断目标点
+Velocity = 0.5 			#车辆行驶速度
 
 class PurePersuit:
 	def __init__(self):
 		rospy.init_node('pure_persuit', log_level=rospy.DEBUG)
-		rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, self.pose_cb, queue_size = 1)
-		rospy.Subscriber('/local_path', Path, self.path_cb, queue_size = 1)
+		rospy.Subscriber('/odom', Odometry, self.pose_cb, queue_size = 1)
+		rospy.Subscriber('/scau/plan', Path, self.path_cb, queue_size = 1)
 
 		self.twist_pub = rospy.Publisher('/cmd_vel', Twist, queue_size = 1)
 
 		self.currentpose = None
 		self.currentpath = None
+		self.target_reached = False    # 初始化是否到达目标点标志位
 
 		self.loop()
 
@@ -33,37 +37,37 @@ class PurePersuit:
 			rate.sleep()
 
 	def pose_cb(self,data):
-		self.currentpose = data.pose
+		self.currentpose = data.pose.pose
 
-	def path_cb(self,data):
-		self.currentpath = data
+	def path_cb(self,plan_msg):
+		# 从 Path 消息中提取poses数组坐标点
+		path_points = plan_msg.poses
 
-	def calculateTwistCommand(self):
-		lad = 0.0 						#  前瞻距离累加器
-		targetIndex = len(self.currentpath.poses) - 1	#初始化目标点索引为路径上最后一个点的索引，假设最初目标为路径的最末端。
-		#  遍历路径上的所有路径点
-		for i in range(len(self.currentpath.poses)):
-			if((i+1) < len(self.currentpath.poses)):
-				# 获取当前路径点和下一个路径点的坐标信息
-				this_x = self.currentpath.poses[i].pose.position.x
-				this_y = self.currentpath.poses[i].pose.position.y
-				next_x = self.currentpath.poses[i+1].pose.position.x
-				next_y = self.currentpath.poses[i+1].pose.position.y
-				# 计算当前路径点与下一个路径点之间的直线距离，并将其累加到前瞻距离累加器中。
-				lad = lad + math.hypot(next_x - this_x, next_y - this_y)
-				# 判断是否达到前瞻距离阈值
-				if(lad > HORIZON):
-					# 获取目标点索引
-					targetIndex = i+1
+		# 迭代路径点
+		for i in range(len(path_points)):
+			#检查是否已经遍历到路径中的最后一个点
+			if i <= len(path_points) - 1:
+				# 检查是否已到达目标点
+				if self.target_reached:
+					# 移动到下一个路径点
+					target_pose = path_points[i + 1]
+					break
+				else:
+					target_pose = path_points[i]
 					break
 
+		# 设置要前往的路径点
+		self.currentpath = target_pose
+
+	def calculateTwistCommand(self):
+		
 		# 获取目标位姿
-		targetpose = self.currentpath.poses[targetIndex]
+		target_pose = self.currentpath
 
 		targetSpeed = Velocity
 
-		targetX = targetpose.pose.position.x
-		targetY = targetpose.pose.position.y		
+		targetX = target_pose.pose.position.x
+		targetY = target_pose.pose.position.y		
 		currentX = self.currentpose.pose.position.x
 		currentY = self.currentpose.pose.position.y
 		# 获取车辆当前偏航角度（默认用弧度表示）
@@ -73,19 +77,18 @@ class PurePersuit:
 		# 计算目标点与车辆当前朝向之间的相对角度以及距离
 		alpha = math.atan2(targetY - currentY, targetX - currentX) - yaw
 		l = math.sqrt(math.pow(currentX - targetX, 2) + math.pow(currentY - targetY, 2))
-		if(l > 0.5):										#如果距离大于0.5（阈值），则计算新的航向角度（theta），并生成相应的扭矩命令；否则，将使线速度和角速度为0。
+		if(l > 0.2):										#如果距离大于0.2（阈值），则计算新的航向角度（theta），并生成相应的扭矩命令；否则，将控制刹车。
 			theta = math.atan(2 * 1.868 * math.sin(alpha) / l)
 			# #get twist command
 			twistCmd = Twist()
 			twistCmd.linear.x = targetSpeed
-			# twistCmd.linear.z = 0			#z的线速度为0用于控制主环闪黄灯，表示自动驾驶启动
 			twistCmd.angular.z = theta 
 		else:
 			twistCmd = Twist()
-			twistCmd.linear.x = 0	  		#控制停车
-			# twistCmd.linear.z = 0			
+			twistCmd.linear.x = 0
 			twistCmd.angular.z = 0
 
+		print('linear:'+str(twistCmd.linear.x)+'  angular:'+str(twistCmd.angular.z))
 		return twistCmd
 
 if __name__ == '__main__':
@@ -93,5 +96,5 @@ if __name__ == '__main__':
     try:
         PurePersuit()
     except rospy.ROSInterruptException:
-        rospy.logerr('Could not start motion control node.')
+        rospy.logerr('Could not start PurePersuit node.')
 

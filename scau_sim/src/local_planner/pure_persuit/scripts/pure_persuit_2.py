@@ -76,11 +76,11 @@ class PurePersuit:
 		euler = tf.transformations.euler_from_quaternion(quanternion)	# 四元数转欧拉角
 		yaw = euler[2]
 		# 计算目标点与车辆当前朝向之间的相对角度以及距离
-		alpha = math.atan2(targetY - currentY, targetX - currentX) - yaw - 1.57079  #2024.5.1这里减去二分之π是因为当前运动方向是y轴正方向，需要考虑到相对转角
+		alpha = math.atan2(targetY - currentY, targetX - currentX) - yaw - 1.57079  #2024.5.1这里减去二分之π是因为当前运动方向是y轴正方向，需要考虑到相对转角(与实际测试场地有关)
 		l = math.sqrt(math.pow(currentX - targetX, 2) + math.pow(currentY - targetY, 2))
 		if(l > 0.2):										#（可调）如果距离大于0.2（阈值），则通过纯跟踪算法计算新的航向角度，并生成相应的转向角度
 			theta = math.atan(2 * 1.868 * math.sin(alpha) / l)
-			angle_degrees= -(math.degrees(theta)+90) + 90 									#2024.5.1这里加上90也是为了修正，但不清楚具体意义
+			angle_degrees= -(math.degrees(theta)+90) + 90 									#2024.5.1这里加上90也是为了修正，但不清楚具体意义（调试而来）
 			#设置异常停止
 			if angle_degrees<90:
 				turn=angle_degrees/90
