@@ -92,7 +92,7 @@ void LidarCluster::preprocessing(
 
   for (auto &iter : raw.points) {
     if (std::hypot(iter.x, iter.y) < sqrt(2) || iter.z > 0.7 ||
-        (std::hypot(iter.x, iter.y) > 7 && iter.z < 0.03))
+        (std::hypot(iter.x, iter.y) > 7 && iter.z < 0.03) || std::hypot(iter.x, iter.y) > 8)
     // if (std::hypot(iter.x, iter.y) < sqrt(2) || iter.z > 0.7 ||
     //     iter.x < 0 || (std::hypot(iter.x, iter.y) > 7 && iter.z < 0.03))
       continue;
@@ -214,10 +214,10 @@ void LidarCluster::ClusterProcessing( const pcl::PointCloud<pcl::PointXYZI>::Ptr
 //基于形状的过滤：
   /* 通过判断聚类的边界大小是否符合路锥的特征来过滤聚类：
    bound_x < 0.5，bound_y < 0.5，bound_z < 0.4：限制聚类的边界范围，使其符合路锥的尺寸。
-   centroid[2] < 0.4：限制聚类质心的 z 轴位置，保证其处于一定的高度以下。
+   centroid[2] < 0.4：限制聚类质心的 z 轴位置，保证其处于一定的高度以下。(这个值需要根据雷达安装位置来调，可以是负值)
    对于满足上述条件的聚类，提取其质心的坐标，存储为 ROS 点消息 geometry_msgs::Point32，
    并添加到 cluster_ 点云中，作为最终的输出。*/
-    if (bound_x < 0.5 && bound_y < 0.5 && bound_z < 0.4 && centroid[2] < 0.4) {
+    if (bound_x < 0.3 && bound_y < 0.3 && bound_z < 0.4 && centroid[2] < 0) {
       geometry_msgs::Point32 tmp;
       tmp.x = centroid[0];
       tmp.y = centroid[1];

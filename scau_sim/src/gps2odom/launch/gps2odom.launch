@@ -2,7 +2,7 @@
 
     <rosparam file="$(find gps2odom)/yaml/gps2odom.yaml" command="load" />
 
-    <node pkg="tf" type="static_transform_publisher" name="static_transform_publisher" 
+    <node pkg="tf" type="static_transform_publisher" name="imu_base_transform" 
 	  args="0 0 0 0 0 0 1  /base_link /imu_base 10" />
 
     <!-- 启动set_pose节点，发布初始化位姿  -->
