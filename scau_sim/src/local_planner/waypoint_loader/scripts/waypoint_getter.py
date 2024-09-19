@@ -30,7 +30,7 @@ class PointCloudProcessor:
             for j in range(i + 1, len(points)):
                 dx = abs(points[i].x - points[j].x)
                 dy = abs(points[i].y - points[j].y)
-                if  dx <= self.x_threshold and dy <= self.y_threshold:
+                if  dx <= self.x_threshold and self.y_threshold <= dy <= self.y_threshold:      #记得改
                     paired_points.append((points[i], points[j]))
 
         # 计算每对点的中点和中垂线朝向

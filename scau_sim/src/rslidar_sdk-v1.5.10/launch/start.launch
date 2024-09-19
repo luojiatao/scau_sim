@@ -2,6 +2,9 @@
   <node pkg="rslidar_sdk" name="rslidar_sdk_node" type="rslidar_sdk_node" output="screen">
     <param name="config_path" value=""/>
   </node>
+  <!-- 发布从base_link到rslidar的静态坐标变换，参数分别为x偏移量 y偏移量 z偏移量 z偏航角度 y俯仰角度 x翻滚角度 父级坐标系 子级坐标系 -->
+  <node pkg="tf" type="static_transform_publisher" name="rslidar_transform" 
+    args="0 0 1 1.57 0 0  /base_link /rslidar 10" />
   <!-- rviz -->
   <node pkg="rviz" name="rviz" type="rviz" args="-d $(find rslidar_sdk)/rviz/rviz.rviz" />
 </launch>
