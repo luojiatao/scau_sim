@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+# 此代码用于发布一个虚拟的odom以测试。
 import rospy
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Point, Quaternion, Twist, Vector3

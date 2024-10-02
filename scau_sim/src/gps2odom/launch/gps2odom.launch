@@ -1,9 +1,18 @@
 <launch>
 
+    <!-- 传入odom的矫正参数将前进方向设置为x正方向，该参数由odom_statesaver获取 -->
+    <arg name="odom0_angle"  value="-1.539365" />
+
     <rosparam file="$(find gps2odom)/yaml/gps2odom.yaml" command="load" />
 
-    <node pkg="tf" type="static_transform_publisher" name="imu_base_transform" 
-	  args="0 0 0 0 0 0 1  /base_link /imu_base 10" />
+    <!-- 使用TF2发布静态坐标变换
+            参数分别为x偏移量 y偏移量 z偏移量 z偏航角度 y俯仰角度 x翻滚角度 父级坐标系 子级坐标系 -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="imu_base_transform" 
+	  args="0 0 0 0 0 0  /base_link /imu_base" />
+
+    <!-- 发布odom到odom0的转换，odom0为robot_localization融合出来的初始定位 -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="odom_transform" 
+	  args="0 0 0 $(arg odom0_angle) 0 0  /odom /odom0" />
 
     <!-- 启动set_pose节点，发布初始化位姿  -->
     <!-- <node pkg="gps2odom" type="set_pose" name="set_pose"/> -->
@@ -11,7 +20,7 @@
 
     <!-- EKF FOR IMU-->
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_imu" respawn="true">
-        <remap from="odometry/filtered" to="odom" />
+        <remap from="odometry/filtered" to="odom0" />
         <param name="two_d_mode" value="true"/>      
     </node>
 
@@ -19,7 +28,7 @@
     <node pkg="robot_localization" type="navsat_transform_node" name="navsat" respawn="true">
         <remap from="imu/data" to="imu/data" />
         <remap from="gps/fix" to="imu/gps" />
-        <remap from="odometry/filtered" to="odom" />
+        <remap from="odometry/filtered" to="odom0" />
     </node>
 
     <!-- EKF for Fusing IMU and Transformed GPS Data -->

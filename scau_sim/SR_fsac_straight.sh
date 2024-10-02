@@ -56,5 +56,10 @@ source devel/setup.bash; \
 roslaunch pure_persuit pure_persuit.launch; \
 exec bash"
 
+gnome-terminal --tab -- bash -c "\
+source devel/setup.bash; \
+rosrun can_pkg serial_can_out; \
+exec bash"
+
 echo “successfully started!”
 

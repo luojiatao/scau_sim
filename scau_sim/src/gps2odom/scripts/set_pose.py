@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# 此代码用于发布初始化位姿用的set_pose话题，待补充
+
 import rospy
 from geometry_msgs.msg import PoseWithCovarianceStamped
 

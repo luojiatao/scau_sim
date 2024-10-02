@@ -6,6 +6,7 @@
 
 本文档展示如何记录与回放MSOP/DIFOP rosbag。 
 
+<!-- 直接录制未解码前的原始packet,MSOP和DIFOP数据包会比直接录制处理后的点云消息节省很多存储空间 -->
 使用ROS可以录制点云rosbag消息并回放，但点云包非常大，所以rslidar_sdk提供更好的选择，也就是录制Packet rosbag并回放。
 
 在阅读本文档之前, 请先阅读雷达用户手册和 [连接在线雷达并发送点云到ROS](./06_how_to_decode_online_lidar_CN.md) 。

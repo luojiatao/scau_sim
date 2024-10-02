@@ -16,7 +16,7 @@ SCAU_SIM是华南农业大学用于FSAC赛道的仿真和算法平台，提供�
 
 ### 1. gazebo_map
 
-gmapping建图功能包。要使用此功能，需要先开启仿真功能和键盘控制功能，然后启动建图功能。运行 `rosrun map_server map_saver -f mapname` 在终端保存地图，地图默认保存在主目录下。
+gmapping建图功能包。要使用此功能，需要先开启仿真功能和键盘控制功能，然后启动建图功能。直接`roslaunch gazebo_map slam_gmapping.launch`运行 `rosrun map_server map_saver -f mapname` 在终端保存地图，地图默认保存在主目录下。
 
 ### 2. gazebo_nav
 
@@ -48,7 +48,7 @@ gmapping建图功能包。要使用此功能，需要先开启仿真功能和键
 
 ### 9 . pointcloud_to_laserscan
 
-多线激光雷达与单线激光雷达数据转换功能包。根据`sample_node.launch`文件配置参数。
+多线激光雷达与单线激光雷达数据转换功能包。根据`sample_node.launch`文件配置参数。参考roswiki文档：https://wiki.ros.org/pointcloud_to_laserscan
 
 ### 10.robot_localization
 

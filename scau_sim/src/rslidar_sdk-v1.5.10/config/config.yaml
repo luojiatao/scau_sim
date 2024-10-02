@@ -4,7 +4,7 @@ common:
                                                         #1: packet message comes from online Lidar
                                                         #2: packet message comes from ROS or ROS2
                                                         #3: packet message comes from Pcap file
-  send_packet_ros: false                                #是否通过ROS发送激光雷达数据包。
+  send_packet_ros: false                                #是否通过ROS发送激光雷达数据包。阅读文档11进行使用，比直接录制rosbag文件应该会小一点
   send_point_cloud_ros: true                            #是否通过ROS或ROS2发送激光雷达点云。
 lidar:
   - driver:

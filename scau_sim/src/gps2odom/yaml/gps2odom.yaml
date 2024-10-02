@@ -11,6 +11,7 @@ navsat:
   publish_filtered_gps: false
 
 # EKF for IMU
+# 下一次试验如果得不到odom0再试试改这下面的odom
 ekf_imu:
   publish_tf: true
   map_frame: map

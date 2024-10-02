@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+#此代码用于读取录制的odom包并计算瞬时速度的大小
+
 import rospy
 import rosbag
 from nav_msgs.msg import Odometry
