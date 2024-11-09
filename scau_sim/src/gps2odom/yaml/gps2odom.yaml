@@ -15,9 +15,9 @@ navsat:
 ekf_imu:
   publish_tf: true
   map_frame: map
-  odom_frame: odom
+  odom_frame: odom0
   base_link_frame: base_link
-  world_frame: odom
+  world_frame: odom0
 
   frequency: 80
   two_d_mode: true

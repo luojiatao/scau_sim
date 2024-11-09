@@ -1,9 +1,9 @@
 <launch>
     <node name="map_server" pkg="map_server" type="map_server" args="$(find
 	gazebo_nav)/map/gmapping_map_straight.yaml" output="screen">
-		<param name="frame_id" value="odom" />
+		<param name="frame_id" value="map" />
 	</node>
-    <!-- <arg name="scan_topic" default="scan"/>
+    <arg name="scan_topic" default="scan"/>
     <arg name="initial_pose_x" default="0.0"/> 
     <arg name="initial_pose_y" default="0.0"/>
     <arg name="initial_pose_a" default="0"/>
@@ -42,5 +42,5 @@
         <param name="odom_alpha4" value="0.1"/>
         <param name="odom_frame_id" value="odom"/>
         <param name="base_frame_id" value="base_link"/>
-    </node> -->
+    </node>
 </launch>

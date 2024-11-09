@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# 此代码用于保存odom直线前进n米之后的位姿状态
+# 出车前需要使用此代码更改odom0_angle参数
+# 此代码用于保存odom直线前进n米之后的位姿状态(需要两个前提：一是车辆笔直向前走；二是导航仪能正常使用)
 
 import rospy
 import math
@@ -11,6 +12,7 @@ class OdomStateSaver:
     def __init__(self):
         rospy.init_node('odom_state_saver', anonymous=True)
 
+        # 记得改为odom或odom0
         self.odom0_sub = rospy.Subscriber('/odom0', Odometry, self.odom_callback)
 
         self.should_shutdown = False

@@ -16,19 +16,21 @@
         <remap from="scan" to="$(arg camera)/scan"/> -->
         <remap from="cloud_in" to="/rslidar_points"/>
         <remap from="scan" to="/scan"/>
-        <param name="target_frame" value="/rslidar"/>
+        <!-- rslidar前面的/注意一下需不需要加 -->
+        <param name="target_frame" value="rslidar"/>
         <rosparam>
             target_frame: rslidar # Leave disabled to output scan in pointcloud frame
             transform_tolerance: 0.01
-            min_height: -0.9         # 指定点云中有效点的最小和最大高度。
+            min_height: -0.95         # 指定点云中有效点的最小和最大高度。
             max_height: -0.1
 
-            angle_min: -3.1415   # -M_PI/2  （指定激光扫描的角度范围）
-            angle_max: 3.1415     # M_PI/2
-            angle_increment: 0.0087 # M_PI/360.0 （指定角度的增量）
-            scan_time: 0.2      # 指定一次完整扫描所需的时间
-            range_min: 0.45          # 指定激光扫描的测距范围
-            range_max: 6.0
+            #等价于-110°到+110°
+            angle_min: -1.9198   # -M_PI/2  （指定激光扫描的角度范围，以弧度为单位，默认值二分之π）
+            angle_max: 1.9198     # M_PI/2
+            angle_increment: 0.0087 # M_PI/360.0 （激光扫描的分辨率（以每光线弧度为单位））
+            scan_time: 0.2      # 指定扫描速率（以秒为单位）
+            range_min: 1.25          # 指定激光扫描的测距范围
+            range_max: 10.0
             use_inf: true
             inf_epsilon: 1.0
 

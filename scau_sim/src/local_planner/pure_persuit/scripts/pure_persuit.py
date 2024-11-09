@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import math
-from geometry_msgs.msg import Quaternion, PoseStamped, TwistStamped, Twist
-from nav_msgs.msg import Path,Odometry
+from geometry_msgs.msg import Quaternion, PoseStamped, TwistStamped, Twist,PoseWithCovarianceStamped
+from nav_msgs.msg import Path
 import tf
 from tf import transformations
 import rospy
@@ -10,13 +10,13 @@ import time
 
 time.sleep(3)  			#休眠三秒后启动
 
-HORIZON = 1.0     #定义最大前瞻距离
+HORIZON = 1.0       #定义最大前瞻距离
 Velocity = 0.5
 
 class PurePersuit:
 	def __init__(self):
 		rospy.init_node('pure_persuit', log_level=rospy.DEBUG)
-		rospy.Subscriber('/odom', Odometry, self.pose_cb, queue_size = 1)
+		rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, self.pose_cb, queue_size = 1)
 		rospy.Subscriber('/local_path', Path, self.path_cb, queue_size = 1)
 
 		self.twist_pub = rospy.Publisher('/cmd_vel', Twist, queue_size = 1)
@@ -36,7 +36,7 @@ class PurePersuit:
 			rate.sleep()
 
 	def pose_cb(self,data):
-		self.currentpose = data.pose.pose
+		self.currentpose = data.pose
 
 	def path_cb(self,data):
 		self.currentpath = data
@@ -44,7 +44,7 @@ class PurePersuit:
 	def calculateTwistCommand(self):
 		lad = 0.0 						#  前瞻距离累加器
 		targetIndex = len(self.currentpath.poses) - 1	#初始化目标点索引为路径上最后一个点的索引，假设最初目标为路径的最末端。
-		#  遍历局部路径上的所有路径点
+		#  遍历路径上的所有路径点
 		for i in range(len(self.currentpath.poses)):
 			if((i+1) < len(self.currentpath.poses)):
 				# 获取当前路径点和下一个路径点的坐标信息
@@ -57,8 +57,8 @@ class PurePersuit:
 				# 判断是否达到前瞻距离阈值
 				if(lad > HORIZON):
 					# 获取目标点索引
-					targetIndex = i+1		#将索引i+1作为目标点索引
-					break							   #跳出for循环，对目标点进行纯跟踪
+					targetIndex = i+1       #将索引i+1作为目标点索引
+					break                              #跳出for循环，对目标点进行纯跟踪
 
 		# 获取目标位姿
 		targetpose = self.currentpath.poses[targetIndex]
@@ -74,7 +74,7 @@ class PurePersuit:
 		euler = tf.transformations.euler_from_quaternion(quanternion)	# 四元数转欧拉角
 		yaw = euler[2]
 		# 计算目标点与车辆当前朝向之间的相对角度以及距离
-		alpha = math.atan2(targetY - currentY, targetX - currentX) - yaw
+		alpha = math.atan2(targetY - currentY, targetX - currentX) - yaw 
 		l = math.sqrt(math.pow(currentX - targetX, 2) + math.pow(currentY - targetY, 2))
 		if(l > 0.2):										#（可调）如果距离大于0.2（阈值），则通过纯跟踪算法计算新的航向角度，并生成相应的转向角度
 			theta = math.atan(2 * 1.868 * math.sin(alpha) / l)
@@ -89,10 +89,10 @@ class PurePersuit:
 					if abs(turn) < 0.15 :
 						twistCmd.angular.z = 0
 					else:
-						twistCmd.angular.z = turn
+						twistCmd.angular.z = turn   #(不确定是正值还是负值，出车前可以发布虚拟定位话题接上can仪测试确定)
 		else:												# 如果距离 < 0.5，即快要到达全局路径终点
 			twistCmd = Twist()
-			twistCmd.linear.x=-0.9			  # 控制刹车（测试时不行的话改成0）
+			twistCmd.linear.x= 0			  # 控制刹车（测试时有需要的话可以改为负值）
 			twistCmd.linear.z=1    				#完成任务，亮蓝色
 
 		print('linear:'+str(twistCmd.linear.x)+'  angular:'+str(twistCmd.angular.z))

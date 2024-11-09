@@ -21,6 +21,6 @@ obstacle_layer:
   scan: {
     data_type: LaserScan,
     topic: /scan,
-    marking: False,       #不使用雷达更新和清除代价地图中的障碍物信息，可以暂时不用雷达来避障
-    clearing: False
+    marking: true,       
+    clearing: true
   }

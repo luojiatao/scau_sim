@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+# 此代码用于基于waypoint_loader_2方案发布的目标点进行跟踪控制
+
 import math
 from geometry_msgs.msg import Quaternion, PoseStamped, TwistStamped, Twist
 from nav_msgs.msg import Path,Odometry

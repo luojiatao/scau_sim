@@ -4,7 +4,7 @@
 # robot_base_frame:机器人的基坐标系;
 #
 global_costmap:
-  global_frame: odom
+  global_frame: map
   robot_base_frame: base_link # base_footprint
   transform_tolerance: 0.5
   update_frequency: 15.0

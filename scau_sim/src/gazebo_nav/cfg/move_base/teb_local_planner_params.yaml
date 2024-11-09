@@ -1,6 +1,6 @@
 TebLocalPlannerROS:
   odom_topic: odom
-  map_frame: /odom  #全局坐标系
+  map_frame: /map  #全局坐标系
   # Trajectoty 这部分主要是用于调整轨迹
   teb_autosize: True #优化期间允许改变轨迹的时域长度
   dt_ref: 0.3 #期望的轨迹时间分辨率

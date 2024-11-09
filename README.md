@@ -7,10 +7,11 @@ SCAU_SIM是华南农业大学用于FSAC赛道的仿真和算法平台，提供�
 ## 启动步骤
 
 1. 在工作空间下打开终端。
-2. 在终端输入 `sh base.sh` 启动硬件驱动程序。
+2. 在终端输入 `sh base.sh` 启动硬件驱动程序示例。
 3. 在终端输入 `sh fsac_straight.sh` 启动直线加速仿真。
 4. 在终端输入 `sh fsac_circle.sh` 启动八字环绕仿真。
 5. 在终端输入`sh SR_fsac_straight.sh` 启动实车直线加速系统。
+6. 在终端输入`sh SR_fsac_straight.sh` 启动无雷达无amcl的纯定位加打点实车直线加速系统。
 
 ## 功能包介绍
 
@@ -50,10 +51,15 @@ gmapping建图功能包。要使用此功能，需要先开启仿真功能和键
 
 多线激光雷达与单线激光雷达数据转换功能包。根据`sample_node.launch`文件配置参数。参考roswiki文档：https://wiki.ros.org/pointcloud_to_laserscan
 
-### 10.robot_localization
+### 10. lidar_cluster
+
+多线雷达数据欧式聚类包。根据`lidar_cluster.yaml`文件修改话题和频率，预处理、过滤和聚类等主要代码在`lidar_cluster.cpp`中修改。
+
+### 11.robot_localization
 
 定位功能包源码，此处仅用于了解学习参数配置，应用时请直接在gps2odom包中修改参数。
 ekf和ukf是两种状态估计器的实现，使用了不同的算法，需要根据yaml配置文件配置参数，注意查看ekf_template.yaml。
 详情参考ros官方文档：http://docs.ros.org/en/melodic/api/robot_localization/html/configuring_robot_localization.html
+
 ---
 

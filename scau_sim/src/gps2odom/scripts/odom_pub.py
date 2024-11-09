@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# 此代码用于发布一个虚拟的odom以测试。
+# 此代码用于手动发布一个固定的odom定位以测试控制部分等底层功能。
 import rospy
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Point, Quaternion, Twist, Vector3
